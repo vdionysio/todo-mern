@@ -6,7 +6,7 @@ const validateError = (status, message) => {
     message,
   };
 
-  return new Error(errorObject);
+  return errorObject;
 };
 
 const generateToken = (email) => {

@@ -5,7 +5,7 @@ const { validateError } = require('../helpers');
 const create = async (input) => {
   const { error } = UserSchema.validate(input);
 
-  if (error) throw validateError(999, error.message);
+  if (error) throw validateError(400, error.message);
 
   const newUser = new User(input);
 

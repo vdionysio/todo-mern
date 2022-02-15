@@ -1,6 +1,6 @@
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 const UserController = require('../../../src/controllers/UserController');
-const helpers = require('../../../src/helpers');
+const { generateToken } = require('../../../src/helpers');
 const User = require('../../../src/models/User');
 
 describe('User controller', () => {
@@ -17,28 +17,26 @@ describe('User controller', () => {
     password: '123456789',
   };
 
-  const fakeToken = '1f2a3k4e5t6o7k8e9n';
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('When the inputs are valid should response with status 200 and a token', async () => {
     jest.spyOn(User.prototype, 'save').mockImplementationOnce(() => savedUser);
-    jest.spyOn(helpers, 'generateToken').mockImplementation(() => fakeToken);
 
     const req = getMockReq({
       body: validUser,
     });
-    const { res } = getMockRes();
+    const { res, next } = getMockRes();
 
-    await UserController.create(req, res);
+    await UserController.create(req, res, next);
+    const token = generateToken(validUser.email);
 
-    expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ token: fakeToken });
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({ token });
   });
 
-  it('When email is invalid should repsonse with status 400 and message "ADICIONAR A MENSAGEM"', async () => {
+  it('When email is invalid should should execute next', async () => {
     const req = getMockReq({
       body: {
         displayName: 'Dionysio',
@@ -46,15 +44,15 @@ describe('User controller', () => {
         password: '123456789',
       },
     });
-    const { res } = getMockRes();
-
-    await UserController.create(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'asdasdasdas' });
+    const { res, next } = getMockRes();
+    await UserController.create(req, res, next);
+    expect(next).toHaveBeenCalledWith({
+      message: '"email" must be a valid email',
+      status: 400,
+    });
   });
 
-  it('When pass lenth is less than 6 should repsonse with status 400 and message "ADICIONAR A MENSAGEM"', async () => {
+  it('When pass lenth is less than 6 should execute next', async () => {
     const req = getMockReq({
       body: {
         displayName: 'Dionysio',
@@ -62,45 +60,40 @@ describe('User controller', () => {
         password: '12345',
       },
     });
-    const { res } = getMockRes();
-
-    await UserController.create(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'asdasdasdas' });
+    const { res, next } = getMockRes();
+    await UserController.create(req, res, next);
+    expect(next).toHaveBeenCalledWith({
+      message: '"password" length must be at least 6 characters long',
+      status: 400,
+    });
   });
 
   it('When displayName lenth is less than 6 should repsonse with status 400 and message "ADICIONAR A MENSAGEM"', async () => {
     const req = getMockReq({
       body: {
-        displayName: 'Dionysio',
+        displayName: 'Diony',
         email: 'dionysio@gmail.com',
-        password: '12345',
+        password: '1234567',
       },
     });
-    const { res } = getMockRes();
-
-    await UserController.create(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ message: 'asdasdasdas' });
-  });
-
-  it('When email is already registered should repsonse with status 400 and message "User already registered"', async () => {
-    const req = getMockReq({
-      body: {
-        displayName: 'Dionysio',
-        email: 'dionysio@gmail.com',
-        password: '12345',
-      },
-    });
-    const { res } = getMockRes();
-
-    await UserController.create(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(409);
-    expect(res.json).toHaveBeenCalledWith({
-      message: 'User already registered',
+    const { res, next } = getMockRes();
+    await UserController.create(req, res, next);
+    expect(next).toHaveBeenCalledWith({
+      message: '"displayName" length must be at least 6 characters long',
+      status: 400,
     });
   });
+
+  // it('When email is already registered should repsonse with status 400 and message "User already registered"', async () => {
+  //   const req = getMockReq({
+  //     body: {
+  //       displayName: 'Dionysio',
+  //       email: 'dionysio@gmail.com',
+  //       password: '1234567',
+  //     },
+  //   });
+  //   const { res, next } = getMockRes();
+  //   await UserController.create(req, res, next);
+  //   expect(res).toHaveBeenCalled();
+  // });
 });
