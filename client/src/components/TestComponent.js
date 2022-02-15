@@ -5,7 +5,7 @@ function TestComponent() {
   const [result, setResult] = useState();
   const [registerInputs, setRegisterInputs] = useState({
     displayName: 'testando',
-    email: 'teste1@gmail.com',
+    email: 'teste2asdasd21@gmail.com',
     password: '12asdasd78',
   });
 
@@ -18,8 +18,7 @@ function TestComponent() {
       withCredentials: true,
       credentials: 'same-origin',
     })
-      .then((result) => result.json())
-      .then((data) => console.log(data))
+      .then((result) => console.log(result))
       .catch((err) => console.log(err.message));
   }, [registerInputs])
   return (
