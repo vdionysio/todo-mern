@@ -3,7 +3,7 @@ const express = require('express');
 const routes = require('./src/routes');
 const middlewares = require('./src/middlewares');
 
-const PORT = process.env.PORT || 500;
+const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
 
