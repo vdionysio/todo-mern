@@ -11,11 +11,10 @@ const create = async (input) => {
 
   try {
     await newUser.save();
+    return true;
   } catch (err) {
     throw validateError(999, err.message);
   }
-
-  return true;
 };
 
 module.exports = {
