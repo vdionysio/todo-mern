@@ -48,4 +48,30 @@ describe('User model', () => {
     });
     await expect(withoutPassword.save()).rejects.toThrowError();
   });
+  // duplicate key error collection
+  it('create user wont work without if email was already registered', async () => {
+    const validInputs = {
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    };
+
+    const firstUser = new User(validInputs);
+    const secondUser = new User(validInputs);
+
+    await firstUser.save();
+    await expect(secondUser.save()).rejects.toThrowError();
+
+    const withoutEmail = new User({
+      displayName: 'Dionysio',
+      password: '123456789',
+    });
+    await expect(withoutEmail.save()).rejects.toThrowError();
+
+    const withoutPassword = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+    });
+    await expect(withoutPassword.save()).rejects.toThrowError();
+  });
 });
