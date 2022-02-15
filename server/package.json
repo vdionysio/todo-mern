@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "config": {
+    "mongodbMemoryServer": {
+      "downloadUrl": "https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1804-4.0.20.tgz"
+    }
+  },
   "scripts": {
     "start": "node index.js",
     "test": "jest --testEnvironment=node --runInBand ./__tests__/**/**/",
