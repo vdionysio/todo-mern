@@ -1,20 +1,19 @@
-const mongoose = require('mongoose');
 const db = require('../../db');
 const User = require('../../../src/models/User');
 
-beforeAll(async () => {
-  await db.setUp();
-});
-
-afterEach(async () => {
-  await db.dropCollections();
-});
-
-afterAll(async () => {
-  await db.dropDatabase();
-});
-
 describe('User model', () => {
+  beforeAll(async () => {
+    await db.setUp();
+  });
+
+  afterEach(async () => {
+    await db.dropCollections();
+  });
+
+  afterAll(async () => {
+    await db.dropDatabase();
+  });
+
   it('create user succesfully with required and valid fileds', async () => {
     const newUser = new User({
       displayName: 'Dionysio',
@@ -22,11 +21,32 @@ describe('User model', () => {
       password: '123456789',
     });
 
-    await newUser.setPassword('123456789');
-
     const savedUser = await newUser.save();
 
     expect(savedUser._id).toBeDefined();
     expect(savedUser.displayName).toBe('Dionysio');
+    savedUser.comparePassword('123456789', (isMatch) => {
+      expect(isMatch).toBeTruthy();
+    });
+  });
+
+  it('create user wont work without required and valid fileds', async () => {
+    const withoutName = new User({
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await expect(withoutName.save()).rejects.toThrowError();
+
+    const withoutEmail = new User({
+      displayName: 'Dionysio',
+      password: '123456789',
+    });
+    await expect(withoutEmail.save()).rejects.toThrowError();
+
+    const withoutPassword = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+    });
+    await expect(withoutPassword.save()).rejects.toThrowError();
   });
 });
