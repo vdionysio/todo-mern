@@ -13,7 +13,7 @@ const create = async (input) => {
     await newUser.save();
     return true;
   } catch (err) {
-    throw validateError(999, err.message);
+    throw validateError(409, err.message);
   }
 };
 
