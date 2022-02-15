@@ -10,6 +10,7 @@ const create = async (req, res, next) => {
 
     return res.status(201).json({ token });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

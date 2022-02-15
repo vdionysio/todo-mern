@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const routes = require('./src/routes');
+const middlewares = require('./src/middlewares');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 500;
 const app = express();
+app.use(express.json());
 
 // wait for connection with DB to start the app
 app.on('ready', () => {
@@ -19,3 +22,9 @@ mongoose
     app.emit('ready');
   })
   .catch((error) => console.log(error.message));
+
+// routes
+app.use('/user', routes.user);
+
+// middlewares
+app.use(middlewares.error);
