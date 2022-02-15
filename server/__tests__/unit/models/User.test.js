@@ -22,7 +22,6 @@ describe('User model', () => {
     });
 
     const savedUser = await newUser.save();
-
     expect(savedUser._id).toBeDefined();
     expect(savedUser.displayName).toBe('Dionysio');
     savedUser.comparePassword('123456789', (isMatch) => {
