@@ -57,6 +57,12 @@ describe('Task controller', () => {
   });
 
   it('When name is missing should execute next', async () => {
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
     const req = getMockReq({
       body: {
         description: 'description',
@@ -73,13 +79,19 @@ describe('Task controller', () => {
   });
 
   it('When status is different than open or closed should execute next', async () => {
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
     const req = getMockReq({
       body: {
         name: 'Task name',
         description: 'description',
         status: 'invalid status',
-        userId: savedUser._id,
       },
+      user: { email: 'dionysio@gmail.com' },
     });
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);
@@ -89,15 +101,21 @@ describe('Task controller', () => {
     });
   });
 
-  it('When userID is invalid should execute next', async () => {
-    const fakeId = ObjectId('507f191e810c19729de860ea');
+  it('When user email is invalid should execute next', async () => {
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
+
     const req = getMockReq({
       body: {
         name: 'Task name',
         description: 'description',
         status: 'open',
-        userId: fakeId,
       },
+      user: { email: 'invalid@gmail.com' },
     });
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);
