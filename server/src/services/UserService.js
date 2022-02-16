@@ -31,7 +31,7 @@ const login = async (credentials) => {
   );
 
   if (!isPasswordValid) throw validateError(400, 'Invalid user or password');
-  console.log(userExists);
+
   return true;
 };
 

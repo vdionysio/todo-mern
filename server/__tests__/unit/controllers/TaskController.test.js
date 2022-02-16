@@ -5,7 +5,7 @@ const User = require('../../../src/models/User');
 const Task = require('../../../src/models/Task');
 const db = require('../../db');
 
-describe('User controller', () => {
+describe('Task controller', () => {
   let savedUser;
   let validTask;
   beforeAll(async () => {
@@ -20,7 +20,6 @@ describe('User controller', () => {
       name: 'Task name',
       description: 'description',
       status: 'open',
-      userId: savedUser._id,
     };
   });
 
@@ -47,6 +46,7 @@ describe('User controller', () => {
 
     const req = getMockReq({
       body: validTask,
+      user: { email: 'dionysio@gmail.com' },
     });
     const { res, next } = getMockRes();
 
@@ -61,8 +61,8 @@ describe('User controller', () => {
       body: {
         description: 'description',
         status: 'open',
-        userId: savedUser._id,
       },
+      user: { email: 'dionysio@gmail.com' },
     });
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);

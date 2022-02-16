@@ -14,7 +14,6 @@ module.exports = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, JWT_SECRET);
     const user = await User.findOne({ email: payload.email });
-    console.log(payload);
 
     if (!user) {
       const err = new Error('User not registered');

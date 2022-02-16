@@ -3,15 +3,14 @@ const User = require('../models/User');
 const TaskSchema = require('../schemas/taskSchema');
 const { validateError } = require('../helpers');
 
-const create = async (input) => {
-  const { error } = TaskSchema.validate(input);
-
-  if (error) throw validateError(400, error.message);
-
-  const user = await User.findById(input.userId);
-  console.log(user);
+const create = async (input, email) => {
+  const user = await User.findOne({ email });
 
   if (!user) throw validateError(400, '"userId" must be valid');
+
+  const { error } = TaskSchema.validate({ ...input, userId: user._id });
+
+  if (error) throw validateError(400, error.message);
 
   const newTask = new Task(input);
 

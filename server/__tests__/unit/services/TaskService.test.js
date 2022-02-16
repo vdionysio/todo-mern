@@ -42,7 +42,7 @@ describe('Task service', () => {
     };
     jest.spyOn(Task.prototype, 'save').mockImplementationOnce(() => fakeReturn);
 
-    const result = await TaskService.create(fakeTask);
+    const result = await TaskService.create(fakeTask, savedUser.email);
     expect(result).toBeTruthy();
   });
 
@@ -50,10 +50,17 @@ describe('Task service', () => {
     const missingName = {
       description: 'description',
       status: 'open',
-      userId: savedUser._id,
     };
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
 
-    await expect(TaskService.create(missingName)).rejects.toMatchObject({
+    await expect(
+      TaskService.create(missingName, 'dionysio@gmail.com')
+    ).rejects.toMatchObject({
       message: '"name" is required',
       status: 400,
     });
@@ -66,21 +73,38 @@ describe('Task service', () => {
       userId: savedUser._id,
     };
 
-    await expect(TaskService.create(missingStatus)).rejects.toMatchObject({
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
+
+    await expect(
+      TaskService.create(missingStatus, 'dionysio@gmail.com')
+    ).rejects.toMatchObject({
       message: '"status" is required',
       status: 400,
     });
   });
 
-  it('should return an error when userId is invalid', async () => {
+  it('should return an error when userEmail invalid', async () => {
     const invalidUserId = {
       name: 'Task name',
       description: 'description',
       status: 'open',
       userId: ObjectId('507f191e810c19729de860ea'),
     };
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    await newUser.save();
 
-    await expect(TaskService.create(invalidUserId)).rejects.toMatchObject({
+    await expect(
+      TaskService.create(invalidUserId, 'invalid@gmail.com')
+    ).rejects.toMatchObject({
       message: '"userId" must be valid',
       status: 400,
     });

@@ -1,5 +1,4 @@
-module.exports = (err, _req, res, _next) => {
-  console.log('test');
+module.exports = (err, _req, res) => {
   console.log(err.message);
 
   if (err.status) {
