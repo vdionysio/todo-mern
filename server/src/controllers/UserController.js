@@ -15,6 +15,20 @@ const create = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const credentials = req.body;
+    await service.login(credentials);
+
+    const token = generateToken(credentials.email);
+
+    return res.status(200).json({ token });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   create,
+  login,
 };

@@ -32,6 +32,7 @@ mongoose
 
 // routes
 app.use('/user', routes.user);
+app.use('/login', routes.login);
 
 // middlewares
 app.use(middlewares.error);
