@@ -1,11 +1,15 @@
 import React from 'react';
-import TestComponent from './components/TestComponent';
+import { BrowserRouter } from 'react-router-dom';
+import UserProvider from './context/UserProvider';
+import AppRoutes from './AppRoutes';
 
 function App() {
   return (
-    <div className="App">
-      <TestComponent />
-    </div>
+    <UserProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
