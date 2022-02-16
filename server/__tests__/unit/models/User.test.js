@@ -49,7 +49,7 @@ describe('User model', () => {
     await expect(withoutPassword.save()).rejects.toThrowError();
   });
   // duplicate key error collection
-  it('create user wont work without if email was already registered', async () => {
+  it('create user wont work if email was already registered', async () => {
     const validInputs = {
       displayName: 'Dionysio',
       email: 'dionysio@gmail.com',
