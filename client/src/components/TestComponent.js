@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function TestComponent() {
   const [result, setResult] = useState();
   const [registerInputs, setRegisterInputs] = useState({
     displayName: 'testando',
-    email: 'teste2asdasd21@gmail.com',
+    email: 'teste2asdasaad21@gmail.com',
     password: '12asdasd78',
   });
 
