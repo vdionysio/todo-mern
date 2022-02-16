@@ -26,6 +26,8 @@ describe('Task model', () => {
 
     const savedTask = await newTask.save();
     expect(savedTask._id).toBeDefined();
+    expect(savedTask.createdAt).toBeDefined();
+    expect(savedTask.updatedAt).toBeDefined();
     expect(savedTask.name).toBe('Tarefa 1');
   });
 

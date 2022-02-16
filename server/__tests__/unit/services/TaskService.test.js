@@ -54,7 +54,7 @@ describe('User service', () => {
     };
 
     await expect(TaskService.create(missingName)).rejects.toMatchObject({
-      message: '"name" is requiredd',
+      message: '"name" is required',
       status: 400,
     });
   });
@@ -67,21 +67,21 @@ describe('User service', () => {
     };
 
     await expect(TaskService.create(missingStatus)).rejects.toMatchObject({
-      message: 'status is required',
+      message: '"status" is required',
       status: 400,
     });
   });
 
   it('should return an error when userId is invalid', async () => {
     const invalidUserId = {
-      displayName: 'invalidUser',
-      email: 'invalid@email',
-      password: 'invalidpassword',
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
       userId: ObjectId('507f191e810c19729de860ea'),
     };
 
     await expect(TaskService.create(invalidUserId)).rejects.toMatchObject({
-      message: '"UserId" must be a valid id',
+      message: '"UserId" must be a valid',
       status: 400,
     });
   });
