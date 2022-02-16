@@ -11,7 +11,7 @@ const create = async (input) => {
   const user = await User.findById(input.userId);
   console.log(user);
 
-  if (!user) throw validateError(400, '"UserId" must be a valid');
+  if (!user) throw validateError(400, '"userId" must be valid');
 
   const newTask = new Task(input);
 

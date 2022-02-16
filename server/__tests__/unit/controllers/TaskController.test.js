@@ -84,7 +84,7 @@ describe('User controller', () => {
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);
     expect(next).toHaveBeenCalledWith({
-      message: '"status" is invalid',
+      message: '"status" must be one of [open, closed]',
       status: 400,
     });
   });
@@ -95,7 +95,7 @@ describe('User controller', () => {
       body: {
         name: 'Task name',
         description: 'description',
-        status: 'invalid status',
+        status: 'open',
         userId: fakeId,
       },
     });

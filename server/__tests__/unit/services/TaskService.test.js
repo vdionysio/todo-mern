@@ -4,7 +4,7 @@ const Task = require('../../../src/models/Task');
 const db = require('../../db');
 const { ObjectId } = require('mongodb');
 
-describe('User service', () => {
+describe('Task service', () => {
   let savedUser;
   beforeAll(async () => {
     await db.setUp();
@@ -81,7 +81,7 @@ describe('User service', () => {
     };
 
     await expect(TaskService.create(invalidUserId)).rejects.toMatchObject({
-      message: '"UserId" must be a valid',
+      message: '"userId" must be valid',
       status: 400,
     });
   });
