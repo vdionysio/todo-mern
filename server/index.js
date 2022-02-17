@@ -24,7 +24,7 @@ app.on('ready', () => {
 
 // start connection with mongoDB
 mongoose
-  .connect('mongodb://localhost:27017/todo-db')
+  .connect(`mongodb://${process.env.DB_LINK || 'localhost'}:27017/todo-db`)
   .then(() => {
     console.log('Connected to database');
     app.emit('ready');
