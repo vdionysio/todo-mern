@@ -7,7 +7,7 @@ const { validateError } = require('../helpers');
 const create = async (input, email) => {
   const user = await User.findOne({ email });
 
-  if (!user) throw validateError(400, '"userId" must be valid');
+  if (!user) throw validateError(400, 'Token must be valid');
 
   const { error } = TaskSchema.validate({ ...input, userId: user._id });
 
@@ -26,7 +26,7 @@ const create = async (input, email) => {
 const getAll = async (email) => {
   const user = await User.findOne({ email });
 
-  if (!user) throw validateError(400, '"userId" must be valid');
+  if (!user) throw validateError(400, 'Token must be valid');
 
   const tasks = await Task.find({ userId: user._id });
 

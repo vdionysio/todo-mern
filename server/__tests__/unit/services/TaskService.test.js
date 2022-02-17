@@ -105,7 +105,7 @@ describe('Task service', () => {
     await expect(
       TaskService.create(invalidUserId, 'invalid@gmail.com')
     ).rejects.toMatchObject({
-      message: '"userId" must be valid',
+      message: 'Token must be valid',
       status: 400,
     });
   });

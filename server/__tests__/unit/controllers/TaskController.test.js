@@ -110,7 +110,7 @@ describe('Task controller', () => {
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);
     expect(next).toHaveBeenCalledWith({
-      message: '"userId" must be valid',
+      message: 'Token must be valid',
       status: 400,
     });
   });
