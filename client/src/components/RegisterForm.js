@@ -35,23 +35,26 @@ function RegisterForm() {
   }, [token]);
 
   return (
-    <form>
-      <DisplayNameInput displayName={displayName} setDisplayName={setDisplayName} />
-      <EmailInput email={email} setEmail={setEmail} />
-      <PasswordInput password={password} setPassword={setPassword} />
-      <CheckPasswordInput
-        password={password}
-        setCheckPassword={setCheckPassword}
-        checkPassword={checkPassword}
-      />
-      <button
-        onClick={async () => {
-          registerUser({ displayName, email, password });
-        }}
-        type="button"
-        disabled={!dataIsReady}>
-        Register
-      </button>
+    <form className="register-form">
+      Register Now
+      <div className="form-input-container">
+        <DisplayNameInput displayName={displayName} setDisplayName={setDisplayName} />
+        <EmailInput email={email} setEmail={setEmail} />
+        <PasswordInput password={password} setPassword={setPassword} />
+        <CheckPasswordInput
+          password={password}
+          setCheckPassword={setCheckPassword}
+          checkPassword={checkPassword}
+        />
+        <button
+          onClick={async () => {
+            registerUser({ displayName, email, password });
+          }}
+          type="button"
+          disabled={!dataIsReady}>
+          Register
+        </button>
+      </div>
     </form>
   );
 }

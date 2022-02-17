@@ -45,7 +45,11 @@ function TaskForm({
           onClick={({ target: { value } }) => setStatus(value)}
         />
       </label>
-      <button type="button" disabled={!(status && name)} onClick={onButtonClick}>
+      <button
+        className="btn-edit"
+        type="button"
+        disabled={!(status && name)}
+        onClick={onButtonClick}>
         {buttonLabel}
       </button>
     </div>

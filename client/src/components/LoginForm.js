@@ -17,12 +17,15 @@ function LoginForm() {
   }, [email, password]);
 
   return (
-    <form>
-      <EmailInput email={email} setEmail={setEmail} />
-      <PasswordInput password={password} setPassword={setPassword} />
-      <button disabled={!isReady} type="button" onClick={() => login({ email, password })}>
-        Enter
-      </button>
+    <form className="login-form">
+      Or sign in if you have already registered
+      <div className="form-input-container">
+        <EmailInput email={email} setEmail={setEmail} />
+        <PasswordInput password={password} setPassword={setPassword} />
+        <button disabled={!isReady} type="button" onClick={() => login({ email, password })}>
+          Enter
+        </button>
+      </div>
     </form>
   );
 }
