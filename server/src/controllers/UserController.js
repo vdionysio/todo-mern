@@ -1,4 +1,5 @@
 const { generateToken } = require('../helpers');
+const User = require('../models/User');
 const service = require('../services/UserService');
 
 const create = async (req, res, next) => {
@@ -27,7 +28,21 @@ const login = async (req, res, next) => {
   }
 };
 
+const getByToken = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+
+    const user = await User.findOne({ email });
+    const { displayName } = user;
+    return res.status(200).json({ displayName, email });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 module.exports = {
   create,
   login,
+  getByToken,
 };
