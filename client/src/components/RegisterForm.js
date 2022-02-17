@@ -2,6 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { validateEmail, validateLength } from '../helpers';
+import EmailInput from './inputs/EmailInput';
+import PasswordInput from './inputs/PasswordInput';
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -42,27 +44,8 @@ function RegisterForm() {
           name="display-name"
         />
       </label>
-      <label>
-        {email != '' && !validateEmail(email) && <span>Invalid</span>}
-        Email
-        <input
-          className="input-text"
-          type="email"
-          onBlur={({ target: { value } }) => setEmail(value)}
-          name="email"
-        />
-      </label>
-      <label>
-        {password != '' && !validateLength(password, 6) && <span>Invalid</span>}
-        Password
-        {<span></span>}
-        <input
-          className="input-text"
-          type="password"
-          onBlur={({ target: { value } }) => setPassword(value)}
-          name="password"
-        />
-      </label>
+      <EmailInput email={email} setEmail={setEmail} />
+      <PasswordInput password={password} setPassword={setPassword} />
       <label>
         {checkPassword != '' && checkPassword != password && <span>Invalid</span>}
         Confirm Password
