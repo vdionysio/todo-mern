@@ -13,3 +13,17 @@ export async function register(registerInputs) {
     .catch((err) => console.log(err.message));
   return data;
 }
+
+export async function login(loginInputs) {
+  const { data } = await axios
+    .post('http://localhost:5000/login', loginInputs, {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:5000',
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true,
+      credentials: 'same-origin'
+    })
+    .catch((err) => console.log(err.message));
+  return data;
+}
