@@ -6,6 +6,12 @@ const Task = require('../../../src/models/Task');
 const db = require('../../db');
 
 describe('Task controller', () => {
+  const baseUser = {
+    displayName: 'Dionysio',
+    email: 'dionysio@gmail.com',
+    password: '123456789',
+  };
+
   beforeAll(async () => {
     await db.setUp();
   });
@@ -20,11 +26,7 @@ describe('Task controller', () => {
   });
 
   it('When the inputs are valid should response with status 200 and a message "Task created"', async () => {
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
+    const newUser = new User(baseUser);
     const savedUser = await newUser.save();
     const validTask = {
       name: 'Task name',
@@ -55,12 +57,9 @@ describe('Task controller', () => {
   });
 
   it('When name is missing should execute next', async () => {
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
+    const newUser = new User(baseUser);
     await newUser.save();
+
     const req = getMockReq({
       body: {
         description: 'description',
@@ -77,12 +76,9 @@ describe('Task controller', () => {
   });
 
   it('When status is different than open or closed should execute next', async () => {
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
+    const newUser = new User(baseUser);
     await newUser.save();
+
     const req = getMockReq({
       body: {
         name: 'Task name',
@@ -100,11 +96,7 @@ describe('Task controller', () => {
   });
 
   it('When user email is invalid should execute next', async () => {
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
+    const newUser = new User(baseUser);
     await newUser.save();
 
     const req = getMockReq({
