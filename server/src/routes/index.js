@@ -1,6 +1,6 @@
 const user = require('./user');
 const login = require('./login');
-const task = require('./tasks');
+const task = require('./task');
 
 module.exports = {
   user,

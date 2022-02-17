@@ -26,7 +26,22 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const edit = async (req, res, next) => {
+  try {
+    const task = req.body;
+    const { email } = req.user;
+    const { id } = req.params;
+    const editedTask = await service.edit(task, email, id);
+
+    return res.status(201).json({ task: editedTask });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 module.exports = {
   create,
   getAll,
+  edit,
 };
