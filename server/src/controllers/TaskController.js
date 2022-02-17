@@ -40,8 +40,22 @@ const edit = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.params;
+    await service.remove(email, id);
+
+    return res.status(201).json({ message: 'your task has been removed' });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   edit,
+  remove,
 };

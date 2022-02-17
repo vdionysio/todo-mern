@@ -90,7 +90,7 @@ describe('Task controller', () => {
     const { res, next } = getMockRes();
     await TaskController.create(req, res, next);
     expect(next).toHaveBeenCalledWith({
-      message: '"status" must be one of [open, closed]',
+      message: '"status" must be one of [open, closed, pending]',
       status: 400,
     });
   });

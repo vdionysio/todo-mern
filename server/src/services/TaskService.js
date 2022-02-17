@@ -46,8 +46,17 @@ const edit = async (task, email, id) => {
   return updatedTask;
 };
 
+const remove = async (email, id) => {
+  const user = await User.findOne({ email });
+  if (!user) throw validateError(400, 'Token must be valid');
+
+  const updatedTask = await Task.findByIdAndRemove(id);
+  if (!updatedTask) throw validateError(409, 'Invalid task id');
+};
+
 module.exports = {
   create,
   getAll,
   edit,
+  remove,
 };

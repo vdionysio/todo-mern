@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/', validateJWT, controller.create);
 router.get('/', validateJWT, controller.getAll);
 router.put('/:id', validateJWT, controller.edit);
+router.delete('/:id', validateJWT, controller.remove);
 
 module.exports = router;
