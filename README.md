@@ -1,15 +1,21 @@
-A aplicação consiste em um todo-list na stack MERN
+### TO-DO List na stack MERN
 
-Back-end
+A aplicação consiste em um todo-list desenvolvido utilizando a stack **MERN** (MongoDB, React.JS, Express, Node.JS)
 
-Arquitetura MSC, conversando com bango MongoDB a partir do ODM Mongoose
+## Back-end
 
-Front-end
+O server-side (Node.JS + Express) foi desenvolvido com base na arquitetura de camadas MSC (Model - Service - Cotroller). Para realizar as tarefas dentro do banco de dados MongoDB foi utilizado o ORM (Object–relational mapping) Mongoose.
+Foram construídos testes unitários utilizando o Jest e o Mongodb Memory Server. Atual, a cobertura do serviço back-end está em 63.68%.
 
-React, realizando consultas api através do XXX
+## Front-end
+O client-side foi desenvolvido utilizando a biblioteca React.JS. Os componentes utlizados são do tipo funcional. Para o gerenciamento de estados foi utlizada a ContextAPI, por se tratar de uma aplicação relativamente pequena.
 
-Depois de clonar git 'link'
-entre na pasta do projeto cd nome-da-pasta e execute o comando
-docker-compose up
+## Passo a passo para executar o projeto em sua máquina
 
-aguarda até o terminal indicar que sua aplicação está rodando e então entre na sua porta local 3000
+1. Clone o repositório
+- `git clone git@github.com:vdionysio/todo-mern.git`
+2. Entre na pasta criada
+- `cd todo-mern`
+3. Certifique-se de que a porta 3000 dá sua máquina local está disponível e então execute o docker-compose
+- `docker-compose up`
+4. Aguarda até o terminal indicar que sua aplicação está pronta e então entre na sua porta local 3000, normalmente pelo link http://localhost:3000/
