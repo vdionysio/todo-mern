@@ -12,7 +12,7 @@ const create = async (input, email) => {
 
   if (error) throw validateError(400, error.message);
 
-  const newTask = new Task(input);
+  const newTask = new Task({ ...input, userId: user._id });
 
   try {
     await newTask.save();
