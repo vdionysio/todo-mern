@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export async function register(registerInputs) {
-  const { data } = await axios
+  const data = await axios
     .post('http://localhost:5000/user', registerInputs, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
@@ -10,11 +10,12 @@ export async function register(registerInputs) {
       withCredentials: true,
       credentials: 'same-origin'
     })
-    .catch((err) => console.log(err.message));
+    .then((response) => response.data)
+    .catch((err) => err);
   return data;
 }
 
-export async function login(loginInputs) {
+export async function loginAuthentication(loginInputs) {
   const { data } = await axios
     .post('http://localhost:5000/login', loginInputs, {
       headers: {
@@ -24,6 +25,6 @@ export async function login(loginInputs) {
       withCredentials: true,
       credentials: 'same-origin'
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => err);
   return data;
 }

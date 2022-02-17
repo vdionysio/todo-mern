@@ -2,6 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { validateEmail, validateLength } from '../helpers';
+import CheckPasswordInput from './inputs/CheckPasswordInput';
+import DisplayNameInput from './inputs/DisplayNameInput';
 import EmailInput from './inputs/EmailInput';
 import PasswordInput from './inputs/PasswordInput';
 
@@ -34,28 +36,14 @@ function RegisterForm() {
 
   return (
     <form>
-      <label htmlFor="display-name">
-        Display name
-        {displayName != '' && !validateLength(displayName, 6) && <span>Invalid</span>}
-        <input
-          className="input-text"
-          type="text"
-          onBlur={({ target: { value } }) => setDisplayName(value)}
-          name="display-name"
-        />
-      </label>
+      <DisplayNameInput displayName={displayName} setDisplayName={setDisplayName} />
       <EmailInput email={email} setEmail={setEmail} />
       <PasswordInput password={password} setPassword={setPassword} />
-      <label>
-        {checkPassword != '' && checkPassword != password && <span>Invalid</span>}
-        Confirm Password
-        <input
-          className="input-text"
-          type="password"
-          onBlur={({ target: { value } }) => setCheckPassword(value)}
-          name="check-password"
-        />
-      </label>
+      <CheckPasswordInput
+        password={password}
+        setCheckPassword={setCheckPassword}
+        checkPassword={checkPassword}
+      />
       <button
         onClick={async () => {
           registerUser({ displayName, email, password });
