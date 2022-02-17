@@ -77,3 +77,35 @@ export async function addTask(TaskInputs, token) {
     .catch((err) => err);
   return data;
 }
+
+export async function editTask(TaskInputs, token, taskId) {
+  const data = await axios
+    .put(`http://localhost:5000/task/${taskId}`, TaskInputs, {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:5000',
+        'Content-Type': 'application/json',
+        Authorization: token
+      },
+      withCredentials: true,
+      credentials: 'same-origin'
+    })
+    .then((response) => response.data)
+    .catch((err) => err);
+  return data;
+}
+
+export async function removeTask(token, taskId) {
+  const data = await axios
+    .delete(`http://localhost:5000/task/${taskId}`, {
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:5000',
+        'Content-Type': 'application/json',
+        Authorization: token
+      },
+      withCredentials: true,
+      credentials: 'same-origin'
+    })
+    .then((response) => response.data)
+    .catch((err) => err);
+  return data;
+}

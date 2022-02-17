@@ -11,8 +11,8 @@ function TaskTable({ tasks }) {
     <table>
       <thead>
         <tr>
-          {labels.map((label) => (
-            <th key={label}>{label}</th>
+          {labels.map((label, index) => (
+            <th key={`${label}${index}`}>{label}</th>
           ))}
         </tr>
       </thead>

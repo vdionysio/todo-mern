@@ -1,18 +1,20 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { addTask } from '../api/requests';
+import PropTypes from 'prop-types';
+import { editTask } from '../api/requests';
 import UserContext from '../context/UserContext';
 import TaskForm from './TaskForm';
 
-function NewTaskForm() {
+function EditTaskForm({ taskId, setIsEditing }) {
   const { token, setShouldUpdateList } = useContext(UserContext);
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState();
 
-  const createNewTask = useCallback(() => {
-    addTask({ name, description, status }, token)
+  const edit = useCallback(() => {
+    editTask({ name, description, status }, token, taskId)
       .then((response) => {
         setShouldUpdateList((prev) => !prev);
+        setIsEditing((prev) => !prev);
         console.log(response);
         return true;
       })
@@ -28,9 +30,14 @@ function NewTaskForm() {
     setStatus,
     status,
     name,
-    buttonLabel: 'Add'
+    buttonLabel: 'Edit'
   };
-  return <TaskForm {...propsObject} onButtonClick={createNewTask} />;
+  return <TaskForm {...propsObject} onButtonClick={edit} />;
 }
 
-export default NewTaskForm;
+EditTaskForm.propTypes = {
+  taskId: PropTypes.string,
+  setIsEditing: PropTypes.func
+};
+
+export default EditTaskForm;
