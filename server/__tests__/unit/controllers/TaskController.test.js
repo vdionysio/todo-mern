@@ -6,21 +6,8 @@ const Task = require('../../../src/models/Task');
 const db = require('../../db');
 
 describe('Task controller', () => {
-  let savedUser;
-  let validTask;
   beforeAll(async () => {
     await db.setUp();
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
-    savedUser = await newUser.save();
-    validTask = {
-      name: 'Task name',
-      description: 'description',
-      status: 'open',
-    };
   });
 
   afterEach(async () => {
@@ -33,6 +20,17 @@ describe('Task controller', () => {
   });
 
   it('When the inputs are valid should response with status 200 and a message "Task created"', async () => {
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    const savedUser = await newUser.save();
+    const validTask = {
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
+    };
     const fakeId = ObjectId('507f191e810c19729de860ea');
     const savedTask = {
       _id: fakeId,
