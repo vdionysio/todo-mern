@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import TaskRow from './TaskRow';
+import UserContext from '../context/UserContext';
 
 const labels = ['name', 'description', 'status', 'created at'];
 
-function TaskTable({ tasks }) {
-  if (!tasks) return <p>Loading</p>;
-  if (tasks.length === 0) return <p>You have not added any tasks yet.</p>;
+function TaskTable() {
+  const { filteredTasks } = useContext(UserContext);
+  if (!filteredTasks) return <p>Loading</p>;
+  if (filteredTasks.length === 0) return <p>You have not added any tasks yet.</p>;
   return (
     <table>
       <thead>
@@ -16,13 +17,11 @@ function TaskTable({ tasks }) {
           ))}
         </tr>
       </thead>
-      <tbody>{tasks && tasks.map((task) => <TaskRow key={task._id} task={task} />)}</tbody>
+      <tbody>
+        {filteredTasks && filteredTasks.map((task) => <TaskRow key={task._id} task={task} />)}
+      </tbody>
     </table>
   );
 }
-
-TaskTable.propTypes = {
-  tasks: PropTypes.arrayOf({})
-};
 
 export default TaskTable;

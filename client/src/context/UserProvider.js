@@ -8,6 +8,7 @@ function UserProvider({ children }) {
   const [token, setToken] = useLocalStorage('token');
   const [user, setUser] = useState();
   const [tasks, setTasks] = useState();
+  const [filteredTasks, setFilteredTasks] = useState();
   const [shouldUpdateList, setShouldUpdateList] = useState(true);
   // const [authError, setAuthError] = useState(false);
 
@@ -70,7 +71,9 @@ function UserProvider({ children }) {
     user,
     tasks,
     shouldUpdateList,
-    setShouldUpdateList
+    setShouldUpdateList,
+    filteredTasks,
+    setFilteredTasks
   };
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
