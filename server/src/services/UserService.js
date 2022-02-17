@@ -9,9 +9,8 @@ const create = async (input) => {
 
   if (error) throw validateError(400, error.message);
 
-  const newUser = new User(input);
-
   try {
+    const newUser = new User(input);
     await newUser.save();
     return true;
   } catch (err) {

@@ -3,10 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const routes = require('./src/routes');
 const middlewares = require('./src/middlewares');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true, //access-control-allow-credentials:true

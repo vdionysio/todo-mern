@@ -1,6 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-const validateError = (status, message) => ({ status, message });
+function ErrorFormat(status, message) {
+  this.status = status;
+  this.message = message;
+}
+
+const validateError = (status, message) => {
+  const newError = new ErrorFormat(status, message);
+  // console.log(new)
+  return newError;
+};
 
 const generateToken = (email) => {
   const payload = {
