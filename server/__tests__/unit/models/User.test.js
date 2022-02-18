@@ -1,6 +1,12 @@
 const db = require('../../db');
 const User = require('../../../src/models/User');
 
+const validInputs = {
+  displayName: 'Dionysio',
+  email: 'dionysio@gmail.com',
+  password: '123456789',
+};
+
 describe('User model', () => {
   beforeAll(async () => {
     await db.setUp();
@@ -15,63 +21,45 @@ describe('User model', () => {
   });
 
   it('create user succesfully with required and valid fileds', async () => {
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
-
+    const newUser = new User(validInputs);
     const savedUser = await newUser.save();
+
     expect(savedUser._id).toBeDefined();
-    expect(savedUser.displayName).toBe('Dionysio');
-    savedUser.comparePassword('123456789', (isMatch) => {
+    expect(savedUser.displayName).toBe(validInputs.displayName);
+    savedUser.comparePassword(validInputs.password, (isMatch) => {
       expect(isMatch).toBeTruthy();
     });
   });
 
-  it('create user wont work without required and valid fileds', async () => {
+  it('create user wont work without displayName field', async () => {
     const withoutName = new User({
-      email: 'dionysio@gmail.com',
-      password: '123456789',
+      email: validInputs.email,
+      password: validInputs.password,
     });
     await expect(withoutName.save()).rejects.toThrowError();
+  });
 
+  it('create user wont work without email field', async () => {
     const withoutEmail = new User({
-      displayName: 'Dionysio',
-      password: '123456789',
+      displayName: validInputs.displayName,
+      password: validInputs.password,
     });
     await expect(withoutEmail.save()).rejects.toThrowError();
+  });
 
+  it('create user wont work without password field', async () => {
     const withoutPassword = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
+      displayName: validInputs.displayName,
+      email: validInputs.email,
     });
     await expect(withoutPassword.save()).rejects.toThrowError();
   });
-  // duplicate key error collection
-  it('create user wont work if email was already registered', async () => {
-    const validInputs = {
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    };
 
+  it('create user wont work with an already registered email', async () => {
     const firstUser = new User(validInputs);
     const secondUser = new User(validInputs);
 
     await firstUser.save();
     await expect(secondUser.save()).rejects.toThrowError();
-
-    const withoutEmail = new User({
-      displayName: 'Dionysio',
-      password: '123456789',
-    });
-    await expect(withoutEmail.save()).rejects.toThrowError();
-
-    const withoutPassword = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-    });
-    await expect(withoutPassword.save()).rejects.toThrowError();
   });
 });
