@@ -5,7 +5,7 @@ const db = require('../../db');
 const { ObjectId } = require('mongodb');
 const { statusDict } = require('../../../src/helpers');
 
-describe('Task service', () => {
+describe('Task service - Create', () => {
   let savedUser;
   let validTaskInput;
 

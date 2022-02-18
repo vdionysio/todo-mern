@@ -12,31 +12,22 @@ const create = rescue(async (req, res, _next) => {
   return res.status(201).json({ token });
 });
 
-const login = async (req, res, next) => {
-  try {
-    const credentials = req.body;
-    await service.login(credentials);
+const login = rescue(async (req, res, _next) => {
+  const credentials = req.body;
+  await service.login(credentials);
 
-    const token = generateToken(credentials.email);
+  const token = generateToken(credentials.email);
 
-    return res.status(200).json({ token });
-  } catch (err) {
-    return next(err);
-  }
-};
+  return res.status(200).json({ token });
+});
 
-const getByToken = async (req, res, next) => {
-  try {
-    const { email } = req.user;
+const getByToken = rescue(async (req, res, _next) => {
+  const { email } = req.user;
 
-    const user = await User.findOne({ email });
-    const { displayName } = user;
-    return res.status(200).json({ displayName, email });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
+  const user = await User.findOne({ email });
+  const { displayName } = user;
+  return res.status(200).json({ displayName, email });
+});
 
 module.exports = {
   create,
