@@ -5,7 +5,7 @@ const db = require('../../db');
 const { ObjectId } = require('mongodb');
 const { statusDict } = require('../../../src/helpers');
 
-describe('Task service - Create', () => {
+describe('Task service - Create Task', () => {
   let savedUser;
   let validTaskInput;
 
@@ -89,5 +89,42 @@ describe('Task service - Create', () => {
       message: 'Token must be valid',
       status: statusDict.unauthorized,
     });
+  });
+});
+
+describe('Task service - Get all tasks', () => {
+  let savedUser;
+  let validTaskInput;
+
+  beforeAll(async () => {
+    await db.setUp();
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    savedUser = await newUser.save();
+
+    validTaskInput = {
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
+      userId: savedUser._id,
+    };
+
+    const Task1 = new Task(validTaskInput);
+    const Task2 = new Task(validTaskInput);
+    await Task1.save();
+    await Task2.save();
+  });
+
+  afterAll(async () => {
+    await db.dropCollections();
+    await db.dropDatabase();
+  });
+
+  it('should return an array of tasks', async () => {
+    const result = await TaskService.getAll('dionysio@gmail.com');
+    expect(Array.isArray(result)).toBe(true);
   });
 });
