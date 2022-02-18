@@ -13,16 +13,12 @@ const create = async (input, email) => {
 
   const { error } = TaskSchema.validate({ ...input, userId: user._id });
 
-  if (error) throw validateError(400, error.message);
+  if (error) throw validateError(statusDict.badRequest, error.message);
 
   const newTask = new Task({ ...input, userId: user._id });
+  const savedTask = await newTask.save();
 
-  try {
-    await newTask.save();
-    return true;
-  } catch (err) {
-    throw validateError(409, err.message);
-  }
+  return savedTask;
 };
 
 const getAll = async (email) => {

@@ -3,9 +3,12 @@ const User = require('../../../src/models/User');
 const Task = require('../../../src/models/Task');
 const db = require('../../db');
 const { ObjectId } = require('mongodb');
+const { statusDict } = require('../../../src/helpers');
 
 describe('Task service', () => {
   let savedUser;
+  let validTaskInput;
+
   beforeAll(async () => {
     await db.setUp();
     const newUser = new User({
@@ -14,10 +17,15 @@ describe('Task service', () => {
       password: '123456789',
     });
     savedUser = await newUser.save();
+    validTaskInput = {
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
+      userId: savedUser._id,
+    };
   });
 
   afterEach(async () => {
-    await db.dropCollections();
     jest.restoreAllMocks();
   });
 
@@ -25,88 +33,61 @@ describe('Task service', () => {
     await db.dropDatabase();
   });
 
-  it('should return true when task is succesfully created', async () => {
-    const fakeTask = {
-      name: 'Task name',
-      description: 'description',
-      status: 'open',
-      userId: savedUser._id,
-    };
-
-    const fakeReturn = {
+  it('should return the task when task is succesfully created', async () => {
+    const mockReturn = {
       _id: '12312312312312',
-      name: 'Task name',
-      description: 'description',
-      status: 'open',
-      userId: savedUser._id,
+      ...validTaskInput,
     };
-    jest.spyOn(Task.prototype, 'save').mockImplementationOnce(() => fakeReturn);
 
-    const result = await TaskService.create(fakeTask, savedUser.email);
-    expect(result).toBeTruthy();
+    jest.spyOn(Task.prototype, 'save').mockImplementationOnce(() => mockReturn);
+
+    const result = await TaskService.create(validTaskInput, savedUser.email);
+    expect(result).toBe(mockReturn);
   });
 
   it('should return an error when name is missing', async () => {
     const missingName = {
-      description: 'description',
-      status: 'open',
+      description: validTaskInput.description,
+      status: validTaskInput.status,
+      userId: validTaskInput.userId,
     };
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
-    await newUser.save();
 
     await expect(
       TaskService.create(missingName, 'dionysio@gmail.com')
     ).rejects.toMatchObject({
       message: '"name" is required',
-      status: 400,
+      status: statusDict.badRequest,
     });
   });
 
   it('should return an error when status is missing', async () => {
     const missingStatus = {
-      name: 'Task name',
-      description: 'description',
-      userId: savedUser._id,
+      name: validTaskInput.name,
+      description: validTaskInput.description,
+      userId: validTaskInput.userId,
     };
-
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
-    await newUser.save();
 
     await expect(
       TaskService.create(missingStatus, 'dionysio@gmail.com')
     ).rejects.toMatchObject({
       message: '"status" is required',
-      status: 400,
+      status: statusDict.badRequest,
     });
   });
 
   it('should return an error when userEmail invalid', async () => {
     const invalidUserId = {
-      name: 'Task name',
-      description: 'description',
-      status: 'open',
+      name: validTaskInput.name,
+      description: validTaskInput.description,
+      status: validTaskInput.status,
       userId: ObjectId('507f191e810c19729de860ea'),
     };
-    const newUser = new User({
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    });
-    await newUser.save();
 
     await expect(
       TaskService.create(invalidUserId, 'invalid@gmail.com')
     ).rejects.toMatchObject({
       message: 'Token must be valid',
-      status: 400,
+      status: statusDict.badRequest,
     });
   });
 });
