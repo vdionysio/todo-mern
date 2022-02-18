@@ -33,7 +33,7 @@ describe('Task service', () => {
     await db.dropDatabase();
   });
 
-  it('should return the task when task is succesfully created', async () => {
+  it('should return the task when task is successfully created', async () => {
     const mockReturn = {
       _id: '12312312312312',
       ...validTaskInput,

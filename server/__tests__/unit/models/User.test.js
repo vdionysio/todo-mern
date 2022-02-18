@@ -20,7 +20,7 @@ describe('User model - Create User', () => {
     await db.dropDatabase();
   });
 
-  it('create user succesfully with required and valid fileds', async () => {
+  it('create user successfully with required and valid fileds', async () => {
     const newUser = new User(validInputs);
     const savedUser = await newUser.save();
 

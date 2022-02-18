@@ -22,7 +22,7 @@ describe('Task model - Create Task', () => {
     await db.dropDatabase();
   });
 
-  it('create task succesfully with required and valid fields', async () => {
+  it('create task successfully with required and valid fields', async () => {
     const newTask = new Task(validInputs);
     const savedTask = await newTask.save();
     expect(savedTask._id).toBeDefined();

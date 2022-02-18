@@ -14,7 +14,7 @@ describe('User service - Create User', () => {
     jest.restoreAllMocks();
   });
 
-  it('should return true when user is succesfully created', async () => {
+  it('should return true when user is successfully created', async () => {
     const fakeReturn = {
       _id: '12312312312312',
       ...validInputs,
@@ -58,9 +58,47 @@ describe('User service - Create User', () => {
     const secondUser = new User(validInputs);
     await firstUser.save();
 
-    await expect(secondUser.save()).rejects.toThrow();
+    await expect(secondUser.save()).rejects.toThrowError(
+      `E11000 duplicate key error dup key: { : "${validInputs.email}" }`
+    );
 
     await db.dropCollections();
     await db.dropDatabase();
+  });
+});
+
+describe('User service - Login', () => {
+  beforeAll(async () => {
+    await db.setUp();
+    const newUser = new User(validInputs);
+    await newUser.save();
+  });
+
+  afterAll(async () => {
+    jest.restoreAllMocks();
+    await db.dropCollections();
+    await db.dropDatabase();
+  });
+
+  it('should return true when user is successfully logged', async () => {
+    const result = await UserService.login({
+      email: validInputs.email,
+      password: validInputs.password,
+    });
+
+    expect(result).toBeTruthy();
+  });
+
+  it('should throw an error when password didnt match', async () => {
+    console.log('email', validInputs.email, validInputs.password);
+    await expect(
+      UserService.login({
+        email: validInputs.email,
+        password: 'invalidapass',
+      })
+    ).rejects.toThrowError({
+      message: 'Invalid user or password',
+      status: statusDict.unauthorized,
+    });
   });
 });
