@@ -1,17 +1,13 @@
 const service = require('../services/TaskService');
+const rescue = require('express-rescue');
 
-const create = async (req, res, next) => {
-  try {
-    const task = req.body;
-    const { email } = req.user;
-    await service.create(task, email);
+const create = rescue(async (req, res, _next) => {
+  const input = req.body;
+  const { email } = req.user;
+  const task = await service.create(input, email);
 
-    return res.status(201).json({ message: 'Task created' });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
+  return res.status(201).json({ task });
+});
 
 const getAll = async (req, res, next) => {
   try {

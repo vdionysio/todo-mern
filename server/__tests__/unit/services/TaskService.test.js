@@ -87,7 +87,7 @@ describe('Task service', () => {
       TaskService.create(invalidUserId, 'invalid@gmail.com')
     ).rejects.toMatchObject({
       message: 'Token must be valid',
-      status: statusDict.badRequest,
+      status: statusDict.unauthorized,
     });
   });
 });
