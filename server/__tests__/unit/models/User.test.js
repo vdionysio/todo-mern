@@ -7,7 +7,7 @@ const validInputs = {
   password: '123456789',
 };
 
-describe('User model', () => {
+describe('User model - Create User', () => {
   beforeAll(async () => {
     await db.setUp();
   });

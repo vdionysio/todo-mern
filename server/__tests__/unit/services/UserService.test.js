@@ -9,7 +9,7 @@ const validInputs = {
   password: 'validpassword',
 };
 
-describe('User service', () => {
+describe('User service - Create User', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
