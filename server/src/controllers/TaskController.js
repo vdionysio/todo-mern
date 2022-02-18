@@ -9,18 +9,13 @@ const create = rescue(async (req, res, _next) => {
   return res.status(201).json({ task });
 });
 
-const getAll = async (req, res, next) => {
-  try {
-    const { email } = req.user;
+const getAll = rescue(async (req, res, _next) => {
+  const { email } = req.user;
 
-    const tasks = await service.getAll(email);
+  const tasks = await service.getAll(email);
 
-    return res.status(200).json({ tasks });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
+  return res.status(200).json({ tasks });
+});
 
 const edit = async (req, res, next) => {
   try {
