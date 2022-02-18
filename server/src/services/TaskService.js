@@ -2,12 +2,14 @@ const Task = require('../models/Task');
 const User = require('../models/User');
 const TaskSchema = require('../schemas/taskSchema');
 const updateTaskSchema = require('../schemas/updateTaskSchema');
-const { validateError } = require('../helpers');
+const { validateError, statusDict } = require('../helpers');
 
 const create = async (input, email) => {
   const user = await User.findOne({ email });
 
-  if (!user) throw validateError(400, 'Token must be valid');
+  if (!user) {
+    throw validateError(statusDict.unauthorized, 'Token must be valid');
+  }
 
   const { error } = TaskSchema.validate({ ...input, userId: user._id });
 
