@@ -26,7 +26,7 @@ describe('validateJWT middleware', () => {
     await db.dropDatabase();
   });
 
-  it('When the token is valid should call next and load user on req', async () => {
+  it('When the token is valid should call next and add user to req', async () => {
     const token = generateToken(savedUser.email);
     const req = getMockReq({
       headers: {
@@ -43,17 +43,16 @@ describe('validateJWT middleware', () => {
     );
   });
 
-  it('When the token is missing should call next with an error message "missing auth token"', async () => {
+  it('When the token is missing should call next with an error message "Missing auth token"', async () => {
     const req = getMockReq();
     const { res, next } = getMockRes();
 
     await validateJWT(req, res, next);
 
-    expect(next).toHaveBeenCalledWith(Error('missing auth token'));
-    // await expect(validateJWT(req, res, next)).resolves.toThrowError('I should fail');
+    expect(next).toHaveBeenCalledWith(Error('Missing auth token'));
   });
 
-  it('When the token is invalid should call next with an error message "jwt malformed"', async () => {
+  it('When the token is invalid should call next with an error message "Invalid signature"', async () => {
     const req = getMockReq({
       headers: {
         authorization: 'invalidToken',
@@ -63,7 +62,7 @@ describe('validateJWT middleware', () => {
 
     await validateJWT(req, res, next);
 
-    expect(next).toHaveBeenCalledWith(Error('jwt malformed'));
+    expect(next).toHaveBeenCalledWith(Error('Invalid signature'));
   });
 
   it('When the token is not associated with a valid user should call next with error message "User not registered"', async () => {
