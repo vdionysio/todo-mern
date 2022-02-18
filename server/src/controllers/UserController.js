@@ -1,18 +1,15 @@
+const rescue = require('express-rescue');
 const { generateToken } = require('../helpers');
 const User = require('../models/User');
 const service = require('../services/UserService');
 
-const create = async (req, res, next) => {
-  try {
-    const user = req.body;
-    await service.create(user);
+const create = async (req, res, _next) => {
+  const user = req.body;
+  await service.create(user);
 
-    const token = generateToken(user.email);
+  const token = generateToken(user.email);
 
-    return res.status(201).json({ token });
-  } catch (err) {
-    next(err);
-  }
+  return res.status(201).json({ token });
 };
 
 const login = async (req, res, next) => {
