@@ -1,6 +1,4 @@
-/* eslint-disable */
 module.exports = (err, _req, res, _next) => {
-  /* eslint-enable */
   console.log(err);
 
   if (err.status) {
@@ -10,8 +8,6 @@ module.exports = (err, _req, res, _next) => {
   }
 
   return res.status(500).json({
-    error: {
-      message: `Internal server error: ${err.message}`,
-    },
+    message: `Internal server error: ${err.message}`,
   });
 };

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jest --testEnvironment=node --runInBand ./__tests__/**/**/",
+    "test": "jest --testEnvironment=node --runInBand --verbose ./__tests__/**/**/",
     "test-coverage": "jest --coverage ./__tests__/**/**/",
     "dev": "nodemon index.js"
   },

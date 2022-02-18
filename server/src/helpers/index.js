@@ -1,13 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-function ErrorFormat(status, message) {
-  this.status = status;
-  this.message = message;
-}
-
 const validateError = (status, message) => {
-  const newError = new ErrorFormat(status, message);
-  // console.log(new)
+  const newError = new Error(message);
+  newError.status = status;
+
   return newError;
 };
 
@@ -23,7 +19,16 @@ const generateToken = (email) => {
   return token;
 };
 
+const statusDict = {
+  ok: 200,
+  created: 201,
+  badRequest: 400,
+  unauthorized: 401,
+  conflict: 409,
+};
+
 module.exports = {
   validateError,
   generateToken,
+  statusDict,
 };

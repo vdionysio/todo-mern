@@ -1,79 +1,61 @@
 const UserService = require('../../../src/services/UserService');
 const User = require('../../../src/models/User');
 const db = require('../../db');
+const { statusDict } = require('../../../src/helpers');
+
+const validInputs = {
+  displayName: 'valid user',
+  email: 'valid@email.com',
+  password: 'validpassword',
+};
 
 describe('User service', () => {
-  afterEach(() => {
+  afterAll(() => {
     jest.restoreAllMocks();
   });
 
   it('should return true when user is succesfully created', async () => {
-    const fakeUser = {
-      displayName: 'fakeUser',
-      email: 'fake@email.com',
-      password: 'fakepassword',
-    };
-
     const fakeReturn = {
       _id: '12312312312312',
-      displayName: 'fakeUser',
-      email: 'fake@email.com',
-      password: 'fakepassword',
+      ...validInputs,
     };
+
     jest.spyOn(User.prototype, 'save').mockImplementationOnce(() => fakeReturn);
 
-    const result = await UserService.create(fakeUser);
+    const result = await UserService.create(validInputs);
     expect(result).toBeTruthy();
   });
 
   it('should return an error when user email is invalid', async () => {
-    const invalidUser = {
-      displayName: 'validUser',
-      email: 'invalid@email',
-      password: '123456',
+    const invalidEmail = {
+      displayName: validInputs.displayName,
+      email: 'invalid@emailcom',
+      password: validInputs.password,
     };
 
-    await expect(UserService.create(invalidUser)).rejects.toMatchObject({
+    await expect(UserService.create(invalidEmail)).rejects.toMatchObject({
       message: '"email" must be a valid email',
-      status: 400,
+      status: statusDict.badRequest,
     });
   });
 
   it('should return an error when user password length is less than 6', async () => {
     const invalidUser = {
-      displayName: 'invalidUser',
-      email: 'invalid@email.com',
+      displayName: validInputs.displayName,
+      email: validInputs.email,
       password: '12345',
     };
 
     await expect(UserService.create(invalidUser)).rejects.toMatchObject({
       message: '"password" length must be at least 6 characters long',
-      status: 400,
+      status: statusDict.badRequest,
     });
   });
 
-  it('should return an error when user email is invalid', async () => {
-    const invalidUser = {
-      displayName: 'invalidUser',
-      email: 'invalid@email',
-      password: 'invalidpassword',
-    };
-
-    await expect(UserService.create(invalidUser)).rejects.toMatchObject({
-      message: '"email" must be a valid email',
-      status: 400,
-    });
-  });
-
-  it('should return an error when user email is already registered', async () => {
+  it('should return an error when email is already registered', async () => {
     await db.setUp();
-    const inputs = {
-      displayName: 'Dionysio',
-      email: 'dionysio@gmail.com',
-      password: '123456789',
-    };
-    const firstUser = new User(inputs);
-    const secondUser = new User(inputs);
+    const firstUser = new User(validInputs);
+    const secondUser = new User(validInputs);
     await firstUser.save();
 
     await expect(secondUser.save()).rejects.toThrow();
