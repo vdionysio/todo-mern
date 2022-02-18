@@ -3,7 +3,7 @@ const UserController = require('../../../src/controllers/UserController');
 const { generateToken } = require('../../../src/helpers');
 const UserService = require('../../../src/services/UserService');
 
-describe('User controller', () => {
+describe('User controller - Create User', () => {
   const validInputs = {
     displayName: 'Dionysio',
     email: 'dionysio@gmail.com',
