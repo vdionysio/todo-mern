@@ -184,4 +184,20 @@ describe('Task service - Edit Task', () => {
       status: statusDict.badRequest,
     });
   });
+
+  it('should return an error when task id is invalid', async () => {
+    const validUpdateTaskInput = {
+      status: 'closed',
+    };
+
+    await expect(
+      TaskService.edit(
+        validUpdateTaskInput,
+        ObjectId('507f191e810c19729de860ea')
+      )
+    ).rejects.toMatchObject({
+      message: 'Invalid task id',
+      status: statusDict.conflict,
+    });
+  });
 });

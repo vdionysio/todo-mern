@@ -33,7 +33,7 @@ const edit = async (task, id) => {
   if (error) throw validateError(400, error.message);
 
   const updatedTask = await Task.findOneAndUpdate({ _id: id }, { $set: task });
-  if (!updatedTask) throw validateError(409, 'Invalid task id');
+  if (!updatedTask) throw validateError(statusDict.conflict, 'Invalid task id');
 
   return updatedTask;
 };
@@ -43,7 +43,7 @@ const remove = async (email, id) => {
   if (!user) throw validateError(400, 'Token must be valid');
 
   const updatedTask = await Task.findByIdAndRemove(id);
-  if (!updatedTask) throw validateError(409, 'Invalid task id');
+  if (!updatedTask) throw validateError(statusDict.conflict, 'Invalid task id');
 };
 
 module.exports = {
