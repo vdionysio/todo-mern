@@ -96,7 +96,7 @@ describe('User service - Login', () => {
         password: 'invalidapass',
       })
     ).rejects.toThrowError({
-      message: 'Invalid user or password',
+      message: 'Invalid email or password',
       status: statusDict.unauthorized,
     });
   });

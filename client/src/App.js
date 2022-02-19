@@ -2,8 +2,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import UserProvider from './context/UserProvider';
 import AppRoutes from './AppRoutes';
-import './style/MainPage.css';
-import './style/Button.css';
 
 function App() {
   return (

@@ -1,32 +1,52 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import UserContext from '../context/UserContext';
 import { validateEmail, validateLength } from '../helpers';
-import EmailInput from './inputs/EmailInput';
-import PasswordInput from './inputs/PasswordInput';
+import { Alert, Button, Form } from 'react-bootstrap';
+import { loginAuthentication } from '../api/requests';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isReady, setIsReady] = useState(false);
-  const { login } = useContext(UserContext);
-
-  useEffect(() => {
+  const { setToken } = useContext(UserContext);
+  const [error, setError] = useState();
+  const login = useCallback(async (loginInputs) => {
     if (validateEmail(email) && validateLength(password, 6)) {
-      setIsReady(true);
+      setError('Invalid username or password');
     }
-  }, [email, password]);
+    const data = await loginAuthentication(loginInputs);
+    setToken(data.token);
+    setError(data.message);
+  }, []);
 
   return (
-    <form className="login-form">
-      Or sign in if you have already registered
-      <div className="form-input-container">
-        <EmailInput email={email} setEmail={setEmail} />
-        <PasswordInput password={password} setPassword={setPassword} />
-        <button disabled={!isReady} type="button" onClick={() => login({ email, password })}>
-          Enter
-        </button>
-      </div>
-    </form>
+    <Form>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          onBlur={({ target }) => setEmail(target.value)}
+        />
+        <Form.Text className="text-muted">
+          We will never share your email with anyone else.
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          onBlur={({ target }) => setPassword(target.value)}
+        />
+      </Form.Group>
+      <Alert variant="danger" style={!error ? { visibility: 'hidden' } : { visibility: 'visible' }}>
+        {error || 'Keep space'}
+      </Alert>
+      <Button variant="primary" type="button" onClick={() => login({ email, password })}>
+        Login
+      </Button>
+    </Form>
   );
 }
 

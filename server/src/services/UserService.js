@@ -24,13 +24,18 @@ const login = async (credentials) => {
   if (error) throw validateError(statusDict.badRequest, error.message);
 
   const userExists = await User.findOne({ email: credentials.email });
+
+  if (!userExists) {
+    throw validateError(statusDict.badRequest, 'Invalid email or password');
+  }
+
   const isPasswordValid = await bcrypt.compareSync(
     credentials.password,
     userExists.password
   );
 
   if (!isPasswordValid) {
-    throw validateError(statusDict.unauthorized, 'Invalid user or password');
+    throw validateError(statusDict.unauthorized, 'Invalid email or password');
   }
 
   return true;

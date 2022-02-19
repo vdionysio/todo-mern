@@ -26,7 +26,8 @@ export async function loginAuthentication(loginInputs) {
       credentials: 'same-origin'
     })
     .then((response) => response.data)
-    .catch((err) => err);
+    .catch(({ response }) => response.data);
+
   return data;
 }
 
