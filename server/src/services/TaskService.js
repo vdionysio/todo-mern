@@ -32,7 +32,11 @@ const edit = async (task, id) => {
   const { error } = updateTaskSchema.validate(task);
   if (error) throw validateError(400, error.message);
 
-  const updatedTask = await Task.findOneAndUpdate({ _id: id }, { $set: task });
+  const updatedTask = await Task.findOneAndUpdate(
+    { _id: id },
+    { $set: task },
+    { new: true }
+  );
   if (!updatedTask) throw validateError(statusDict.conflict, 'Invalid task id');
 
   return updatedTask;

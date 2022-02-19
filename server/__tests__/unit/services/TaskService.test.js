@@ -92,7 +92,7 @@ describe('Task service - Create Task', () => {
   });
 });
 
-describe('Task service - Get all tasks', () => {
+describe('Task service - Get All Tasks', () => {
   let savedUser;
   let validTaskInput;
 

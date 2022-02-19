@@ -90,7 +90,6 @@ describe('User service - Login', () => {
   });
 
   it('should throw an error when password didnt match', async () => {
-    console.log('email', validInputs.email, validInputs.password);
     await expect(
       UserService.login({
         email: validInputs.email,

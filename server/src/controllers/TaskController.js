@@ -17,19 +17,13 @@ const getAll = rescue(async (req, res, _next) => {
   return res.status(200).json({ tasks });
 });
 
-const edit = async (req, res, next) => {
-  try {
-    const task = req.body;
-    const { email } = req.user;
-    const { id } = req.params;
-    const editedTask = await service.edit(task, email, id);
+const edit = rescue(async (req, res, _next) => {
+  const task = req.body;
+  const { id } = req.params;
 
-    return res.status(201).json({ task: editedTask });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
+  const editedTask = await service.edit(task, id);
+  return res.status(201).json({ task: editedTask });
+});
 
 const remove = async (req, res, next) => {
   try {

@@ -27,7 +27,6 @@ describe('Task model - Create Task', () => {
     const savedTask = await newTask.save();
     expect(savedTask._id).toBeDefined();
     expect(savedTask.createdAt).toBeDefined();
-    expect(savedTask.updatedAt).toBeDefined();
     expect(savedTask.name).toBe(validInputs.name);
   });
 
