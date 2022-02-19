@@ -4,24 +4,20 @@ import UserContext from '../context/UserContext';
 import TaskForm from './TaskForm';
 
 function NewTaskForm() {
-  const { token, setShouldUpdateList } = useContext(UserContext);
+  const { token, setTasks } = useContext(UserContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
 
-  const createNewTask = useCallback(() => {
+  const createNewTask = useCallback(async () => {
     console.log(name, description, status);
-    addTask({ name, description, status }, token)
-      .then((response) => {
-        setShouldUpdateList((prev) => !prev);
-        console.log(response);
-        return true;
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        return false;
-      });
-  }, [status, name]);
+    const result = await addTask({ name, description, status }, token);
+    if (result.task) {
+      setTasks((prevState) => [...prevState, result.task]);
+    } else {
+      alert(result.message);
+    }
+  }, [status, name, description]);
 
   const propsObject = {
     setDescription,

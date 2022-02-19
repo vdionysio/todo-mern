@@ -31,7 +31,7 @@ describe('Task controller - Create Task', () => {
     const validTask = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
     const fakeId = ObjectId('507f191e810c19729de860ea');
@@ -77,7 +77,7 @@ describe('Task controller - Get All Tasks', () => {
     const validTask = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
     const fakeId = ObjectId('507f191e810c19729de860ea');
@@ -123,7 +123,7 @@ describe('Task controller - Edit Task', () => {
     const validTask = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
 
@@ -166,7 +166,7 @@ describe('Task controller - Remove Task', () => {
     const validTask = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
 

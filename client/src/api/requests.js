@@ -44,7 +44,7 @@ export async function getUserByToken(token) {
       credentials: 'same-origin'
     })
     .then((response) => response.data)
-    .catch((err) => err);
+    .catch(({ response }) => response.data);
   return data;
 }
 

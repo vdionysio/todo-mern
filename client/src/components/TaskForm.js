@@ -37,26 +37,23 @@ function TaskForm({
       <Form.Group>
         <Form.Check
           type="radio"
+          label="in progress"
+          value="in progress"
+          name="status"
+          onChange={({ target: { value } }) => setStatus(value)}
+        />
+        <Form.Check
+          type="radio"
           label="pending"
           value="pending"
           name="status"
-          checked={status === 'pending'}
           onChange={({ target: { value } }) => setStatus(value)}
         />
         <Form.Check
           type="radio"
-          label="open"
-          value="open"
+          label="ready"
+          value="ready"
           name="status"
-          checked={status === 'open'}
-          onChange={({ target: { value } }) => setStatus(value)}
-        />
-        <Form.Check
-          type="radio"
-          label="closed"
-          value="closed"
-          name="status"
-          checked={status === 'closed'}
           onChange={({ target: { value } }) => setStatus(value)}
         />
       </Form.Group>

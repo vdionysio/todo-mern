@@ -20,7 +20,7 @@ describe('Task service - Create Task', () => {
     validTaskInput = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
   });
@@ -92,7 +92,7 @@ describe('Task service - Get All Tasks', () => {
     validTaskInput = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
 
@@ -128,7 +128,7 @@ describe('Task service - Edit Task', () => {
     validTaskInput = {
       name: 'Task name',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
   });
@@ -155,7 +155,7 @@ describe('Task service - Edit Task', () => {
     expect(result.description).toBe('new description');
   });
 
-  it('should return an error when status is different than "open", "closed" or "pending"', async () => {
+  it('should return an error when status is different than "in progress", "ready" or "pending"', async () => {
     const invalidStatus = {
       status: 'different',
     };
@@ -163,14 +163,14 @@ describe('Task service - Edit Task', () => {
     await expect(
       TaskService.edit(savedUser.email, invalidStatus, '12312312312312')
     ).rejects.toMatchObject({
-      message: '"status" must be one of [open, closed, pending]',
+      message: '"status" must be one of [in progress, ready, pending]',
       status: statusDict.badRequest,
     });
   });
 
   it('should return an error when task id is invalid', async () => {
     const validUpdateTaskInput = {
-      status: 'closed',
+      status: 'in progress',
     };
 
     await expect(
@@ -218,7 +218,7 @@ describe('Task service - Remove Task', () => {
     validTaskInput = {
       name: 'Task to remove',
       description: 'description',
-      status: 'open',
+      status: 'in progress',
       userId: savedUser._id,
     };
   });

@@ -40,6 +40,7 @@ function UserProvider({ children }) {
     token,
     setToken,
     user,
+    setTasks,
     tasks,
     shouldUpdateList,
     setShouldUpdateList,

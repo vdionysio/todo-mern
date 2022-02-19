@@ -45,9 +45,6 @@ function RegisterForm() {
           placeholder="Enter display name"
           onBlur={({ target }) => setDisplayName(target.value)}
         />
-        <Form.Text className="text-muted">
-          We will never share your email with anyone else.
-        </Form.Text>
       </Form.Group>
 
       <Form.Group className="mb-3">

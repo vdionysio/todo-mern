@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 const validInputs = {
   name: 'Tarefa',
   description: 'descrição da tarefa 1',
-  status: 'open',
+  status: 'in progress',
   userId: ObjectId('507f191e810c19729de860ea'),
 };
 
@@ -53,7 +53,7 @@ describe('Task model - Create Task', () => {
     const withoutUserId = new Task({
       name: 'Tarefa 1',
       description: 'descrição da tarefa 1',
-      status: 'open',
+      status: 'in progress',
     });
 
     await expect(withoutUserId.save()).rejects.toThrowError();

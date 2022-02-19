@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getUserByToken } from '../api/requests';
 import Header from '../components/Header';
 import NewTaskForm from '../components/NewTaskForm';
-import TaskTable from '../components/TaskTable';
+import TaskList from '../components/TaskList';
 import UserContext from '../context/UserContext';
 
 const sortAux = (ord, valueA, valueB) => {
@@ -15,7 +17,8 @@ const sortAux = (ord, valueA, valueB) => {
 };
 
 function HomeUser() {
-  const { user, filteredTasks, setFilteredTasks, tasks } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { user, filteredTasks, setFilteredTasks, tasks, token } = useContext(UserContext);
   const [sortSettings, setSortSettings] = useState({ column: 'createdAt', ord: 'ASC' });
   const sortTasks = useCallback(() => {
     const { column, ord } = sortSettings;
@@ -33,6 +36,17 @@ function HomeUser() {
   useEffect(() => {
     setFilteredTasks(tasks);
   }, [tasks]);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const result = await getUserByToken(token);
+      if (result.message) {
+        alert(`${result.message}: enter with your account`);
+        navigate('/');
+      }
+    };
+    checkToken();
+  }, [token]);
 
   return (
     <div>
@@ -83,7 +97,7 @@ function HomeUser() {
           <button type="button" onClick={sortTasks}>
             Sort
           </button>
-          <TaskTable />
+          <TaskList />
         </>
       )}
     </div>
