@@ -158,18 +158,17 @@ describe('Task service - Edit Task', () => {
   });
 
   it('should return the task when task is successfully updated', async () => {
-    const mockReturn = {
-      _id: '12312312312312',
-      ...validTaskInput,
-    };
+    const newTask = new Task(validTaskInput);
+    const addedTask = await newTask.save();
 
     const newValues = { description: 'new description' };
-    jest
-      .spyOn(Task, 'findOneAndUpdate')
-      .mockImplementation(async () => Object.assign({}, mockReturn, newValues));
 
-    const result = await TaskService.edit(newValues, savedUser.email);
-    expect(result).toStrictEqual({ ...mockReturn, ...newValues });
+    const result = await TaskService.edit(
+      savedUser.email,
+      newValues,
+      addedTask._id
+    );
+    expect(result.description).toBe('new description');
   });
 
   it('should return an error when status is different than "open", "closed" or "pending"', async () => {
@@ -178,7 +177,7 @@ describe('Task service - Edit Task', () => {
     };
 
     await expect(
-      TaskService.edit(invalidStatus, '12312312312312')
+      TaskService.edit(savedUser.email, invalidStatus, '12312312312312')
     ).rejects.toMatchObject({
       message: '"status" must be one of [open, closed, pending]',
       status: statusDict.badRequest,
@@ -192,6 +191,7 @@ describe('Task service - Edit Task', () => {
 
     await expect(
       TaskService.edit(
+        savedUser.email,
         validUpdateTaskInput,
         ObjectId('507f191e810c19729de860ea')
       )

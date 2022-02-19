@@ -28,16 +28,23 @@ const getAll = async (email) => {
   return tasks;
 };
 
-const edit = async (task, id) => {
+const edit = async (email, task, id) => {
   const { error } = updateTaskSchema.validate(task);
   if (error) throw validateError(400, error.message);
+
+  const user = await User.findOne({ email });
+  const foundTask = await Task.findById(id);
+  if (!foundTask) throw validateError(statusDict.conflict, 'Invalid task id');
+
+  if (!foundTask.userId.equals(user._id)) {
+    throw validateError(statusDict.unauthorized, 'You cannot edit this task');
+  }
 
   const updatedTask = await Task.findOneAndUpdate(
     { _id: id },
     { $set: task },
     { new: true }
   );
-  if (!updatedTask) throw validateError(statusDict.conflict, 'Invalid task id');
 
   return updatedTask;
 };
@@ -46,8 +53,10 @@ const remove = async (email, id) => {
   const user = await User.findOne({ email });
   if (!user) throw validateError(400, 'Token must be valid');
 
-  const updatedTask = await Task.findByIdAndRemove(id);
-  if (!updatedTask) throw validateError(statusDict.conflict, 'Invalid task id');
+  const removedTask = await Task.findByIdAndRemove(id);
+  if (!removedTask) throw validateError(statusDict.conflict, 'Invalid task id');
+
+  return removedTask;
 };
 
 module.exports = {

@@ -20,23 +20,19 @@ const getAll = rescue(async (req, res, _next) => {
 const edit = rescue(async (req, res, _next) => {
   const task = req.body;
   const { id } = req.params;
+  const { email } = req.user;
 
-  const editedTask = await service.edit(task, id);
+  const editedTask = await service.edit(email, task, id);
   return res.status(201).json({ task: editedTask });
 });
 
-const remove = async (req, res, next) => {
-  try {
-    const { email } = req.user;
-    const { id } = req.params;
-    await service.remove(email, id);
+const remove = rescue(async (req, res, _next) => {
+  const { email } = req.user;
+  const { id } = req.params;
+  await service.remove(email, id);
 
-    return res.status(201).json({ message: 'your task has been removed' });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
+  return res.status(201).json({ message: 'your task has been removed' });
+});
 
 module.exports = {
   create,
