@@ -128,3 +128,60 @@ describe('Task service - Get all tasks', () => {
     expect(Array.isArray(result)).toBe(true);
   });
 });
+
+describe('Task service - Edit Task', () => {
+  let savedUser;
+  let validTaskInput;
+
+  beforeAll(async () => {
+    await db.setUp();
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    savedUser = await newUser.save();
+    validTaskInput = {
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
+      userId: savedUser._id,
+    };
+  });
+
+  afterEach(async () => {
+    jest.restoreAllMocks();
+  });
+
+  afterAll(async () => {
+    await db.dropDatabase();
+  });
+
+  it('should return the task when task is successfully updated', async () => {
+    const mockReturn = {
+      _id: '12312312312312',
+      ...validTaskInput,
+    };
+
+    const newValues = { description: 'new description' };
+    jest
+      .spyOn(Task, 'findOneAndUpdate')
+      .mockImplementation(async () => Object.assign({}, mockReturn, newValues));
+
+    const result = await TaskService.edit(newValues, savedUser.email);
+    expect(result).toStrictEqual({ ...mockReturn, ...newValues });
+  });
+
+  it('should return an error when status is different than "open", "closed" or "pending"', async () => {
+    const invalidStatus = {
+      status: 'different',
+    };
+
+    await expect(
+      TaskService.edit(invalidStatus, '12312312312312')
+    ).rejects.toMatchObject({
+      message: '"status" must be one of [open, closed, pending]',
+      status: statusDict.badRequest,
+    });
+  });
+});

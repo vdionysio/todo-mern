@@ -28,10 +28,7 @@ const getAll = async (email) => {
   return tasks;
 };
 
-const edit = async (task, email, id) => {
-  const user = await User.findOne({ email });
-  if (!user) throw validateError(400, 'Token must be valid');
-
+const edit = async (task, id) => {
   const { error } = updateTaskSchema.validate(task);
   if (error) throw validateError(400, error.message);
 
