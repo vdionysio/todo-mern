@@ -11,7 +11,8 @@ export async function register(registerInputs) {
       credentials: 'same-origin'
     })
     .then((response) => response.data)
-    .catch((err) => err);
+    .catch(({ response }) => response.data);
+
   return data;
 }
 
@@ -75,7 +76,7 @@ export async function addTask(TaskInputs, token) {
       credentials: 'same-origin'
     })
     .then((response) => response.data)
-    .catch((err) => err);
+    .catch(({ response }) => response.data);
   return data;
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, Form } from 'react-bootstrap';
 
 function TaskForm({
   setDescription,
@@ -8,51 +9,66 @@ function TaskForm({
   onButtonClick,
   status,
   name,
+  description,
   buttonLabel
 }) {
   return (
-    <div>
-      <label htmlFor="name">
-        <input type="text" name="name" onChange={({ target: { value } }) => setName(value)} />
-      </label>
-      <label htmlFor="description">
-        <input
+    <Form>
+      <Form.Group className="mb-3">
+        <Form.Label>Task name</Form.Label>
+        <Form.Control
           type="text"
-          name="description"
+          placeholder="Enter a task name"
+          value={name}
+          onChange={({ target: { value } }) => setName(value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Task description</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter a description"
+          value={description}
           onChange={({ target: { value } }) => setDescription(value)}
         />
-      </label>
-      <label htmlFor="status">
-        Open
-        <input
+      </Form.Group>
+
+      <Form.Group>
+        <Form.Check
           type="radio"
+          label="pending"
+          value="pending"
           name="status"
+          checked={status === 'pending'}
+          onChange={({ target: { value } }) => setStatus(value)}
+        />
+        <Form.Check
+          type="radio"
+          label="open"
           value="open"
-          onClick={({ target: { value } }) => setStatus(value)}
-        />
-        Closed
-        <input
-          type="radio"
           name="status"
+          checked={status === 'open'}
+          onChange={({ target: { value } }) => setStatus(value)}
+        />
+        <Form.Check
+          type="radio"
+          label="closed"
           value="closed"
-          onClick={({ target: { value } }) => setStatus(value)}
-        />
-        Pending
-        <input
-          type="radio"
           name="status"
-          value="peding"
-          onClick={({ target: { value } }) => setStatus(value)}
+          checked={status === 'closed'}
+          onChange={({ target: { value } }) => setStatus(value)}
         />
-      </label>
-      <button
-        className="btn-edit"
+      </Form.Group>
+
+      <Button
+        variant="primary"
         type="button"
-        disabled={!(status && name)}
-        onClick={onButtonClick}>
+        onClick={onButtonClick}
+        disabled={status === '' || name === '' || description === ''}>
         {buttonLabel}
-      </button>
-    </div>
+      </Button>
+    </Form>
   );
 }
 
@@ -63,6 +79,7 @@ TaskForm.propTypes = {
   onButtonClick: PropTypes.func,
   status: PropTypes.string,
   name: PropTypes.string,
+  description: PropTypes.string,
   buttonLabel: PropTypes.string
 };
 

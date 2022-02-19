@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserContext from './UserContext';
 import PropTypes from 'prop-types';
-import { getUserByToken, getUserTasks, register } from '../api/requests';
+import { getUserByToken, getUserTasks } from '../api/requests';
 import { useLocalStorage } from '../helpers';
 
 function UserProvider({ children }) {
@@ -10,19 +10,6 @@ function UserProvider({ children }) {
   const [tasks, setTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
   const [shouldUpdateList, setShouldUpdateList] = useState(true);
-
-  const registerUser = useCallback((registerInputs) => {
-    register(registerInputs)
-      .then((response) => {
-        console.log(response);
-        setToken(response.token);
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        return false;
-      });
-  }, []);
 
   useEffect(() => {
     const fillUserInfo = async () => {
@@ -52,7 +39,6 @@ function UserProvider({ children }) {
   const contextValue = {
     token,
     setToken,
-    registerUser,
     user,
     tasks,
     shouldUpdateList,

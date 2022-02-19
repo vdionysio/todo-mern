@@ -17,7 +17,6 @@ const sortAux = (ord, valueA, valueB) => {
 function HomeUser() {
   const { user, filteredTasks, setFilteredTasks, tasks } = useContext(UserContext);
   const [sortSettings, setSortSettings] = useState({ column: 'createdAt', ord: 'ASC' });
-  console.log(tasks);
   const sortTasks = useCallback(() => {
     const { column, ord } = sortSettings;
     const filtered = [...tasks].sort((a, b) => {

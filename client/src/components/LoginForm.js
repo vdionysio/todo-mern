@@ -12,6 +12,7 @@ function LoginForm() {
   const login = useCallback(async (loginInputs) => {
     if (validateEmail(email) && validateLength(password, 6)) {
       setError('Invalid username or password');
+      return false;
     }
     const data = await loginAuthentication(loginInputs);
     setToken(data.token);
@@ -20,7 +21,7 @@ function LoginForm() {
 
   return (
     <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type="email"
@@ -32,7 +33,7 @@ function LoginForm() {
         </Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
