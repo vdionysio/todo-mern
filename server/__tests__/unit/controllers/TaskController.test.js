@@ -139,6 +139,48 @@ describe('Task controller - Edit Task', () => {
 
     await TaskController.edit(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(statusDict.created);
+    expect(res.status).toHaveBeenCalledWith(statusDict.ok);
+  });
+});
+
+describe('Task controller - Remove Task', () => {
+  const baseUser = {
+    displayName: 'Dionysio',
+    email: 'dionysio@gmail.com',
+    password: '123456789',
+  };
+
+  beforeAll(async () => {
+    jest.restoreAllMocks();
+    await db.setUp();
+  });
+
+  afterAll(async () => {
+    await db.dropCollections();
+    await db.dropDatabase();
+  });
+
+  it('When the inputs are valid should response with status 200 and return the removed task', async () => {
+    const newUser = new User(baseUser);
+    const savedUser = await newUser.save();
+    const validTask = {
+      name: 'Task name',
+      description: 'description',
+      status: 'open',
+      userId: savedUser._id,
+    };
+
+    const newTask = new Task(validTask);
+    const savedTask = await newTask.save();
+
+    const req = getMockReq({
+      user: { email: savedUser.email },
+      params: { id: savedTask._id },
+    });
+    const { res, next } = getMockRes();
+
+    await TaskController.remove(req, res, next);
+
+    expect(res.status).toHaveBeenCalledWith(statusDict.ok);
   });
 });

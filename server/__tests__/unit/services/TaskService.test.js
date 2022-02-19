@@ -202,3 +202,64 @@ describe('Task service - Edit Task', () => {
     ).rejects.toThrowError('You cannot edit this task');
   });
 });
+
+describe('Task service - Remove Task', () => {
+  let savedUser;
+  let validTaskInput;
+
+  beforeAll(async () => {
+    await db.setUp();
+    const newUser = new User({
+      displayName: 'Dionysio',
+      email: 'dionysio@gmail.com',
+      password: '123456789',
+    });
+    savedUser = await newUser.save();
+    validTaskInput = {
+      name: 'Task to remove',
+      description: 'description',
+      status: 'open',
+      userId: savedUser._id,
+    };
+  });
+
+  afterEach(async () => {
+    jest.restoreAllMocks();
+  });
+
+  afterAll(async () => {
+    await db.dropDatabase();
+  });
+
+  it('should return the task when task is successfully removed', async () => {
+    const newTask = new Task(validTaskInput);
+    const addedTask = await newTask.save();
+
+    const result = await TaskService.remove(savedUser.email, addedTask._id);
+    expect(result.name).toBe('Task to remove');
+  });
+
+  it('should return an error when task id is invalid', async () => {
+    await expect(
+      TaskService.remove(savedUser.email, ObjectId('507f191e810c19729de860ea'))
+    ).rejects.toMatchObject({
+      message: 'Invalid task id',
+      status: statusDict.conflict,
+    });
+  });
+
+  it('should return an when error when user tries to remove a task that doesnt belog to him', async () => {
+    const newTask = new Task(validTaskInput);
+    const addedTask = await newTask.save();
+    const newUser = new User({
+      displayName: 'New User',
+      email: 'newuser@gmail.com',
+      password: '123456789',
+    });
+    const savedNewUser = await newUser.save();
+
+    await expect(
+      TaskService.remove(savedNewUser.email, addedTask._id)
+    ).rejects.toThrowError('You cannot edit this task');
+  });
+});

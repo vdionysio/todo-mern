@@ -47,10 +47,14 @@ const edit = async (email, task, id) => {
 
 const remove = async (email, id) => {
   const user = await User.findOne({ email });
-  if (!user) throw validateError(400, 'Token must be valid');
+  const foundTask = await Task.findById(id);
+  if (!foundTask) throw validateError(statusDict.conflict, 'Invalid task id');
+
+  if (!foundTask.userId.equals(user._id)) {
+    throw validateError(statusDict.unauthorized, 'You cannot edit this task');
+  }
 
   const removedTask = await Task.findByIdAndRemove(id);
-  if (!removedTask) throw validateError(statusDict.conflict, 'Invalid task id');
 
   return removedTask;
 };
