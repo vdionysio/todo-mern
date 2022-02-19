@@ -132,6 +132,7 @@ describe('Task controller - Edit Task', () => {
 
     const req = getMockReq({
       body: { description: 'new description' },
+      user: { email: savedUser.email },
       params: { id: savedTask._id },
     });
     const { res, next } = getMockRes();

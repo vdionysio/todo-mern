@@ -74,22 +74,6 @@ describe('Task service - Create Task', () => {
       status: statusDict.badRequest,
     });
   });
-
-  it('should return an error when userEmail invalid', async () => {
-    const invalidUserId = {
-      name: validTaskInput.name,
-      description: validTaskInput.description,
-      status: validTaskInput.status,
-      userId: ObjectId('507f191e810c19729de860ea'),
-    };
-
-    await expect(
-      TaskService.create(invalidUserId, 'invalid@gmail.com')
-    ).rejects.toMatchObject({
-      message: 'Token must be valid',
-      status: statusDict.unauthorized,
-    });
-  });
 });
 
 describe('Task service - Get All Tasks', () => {
@@ -199,5 +183,22 @@ describe('Task service - Edit Task', () => {
       message: 'Invalid task id',
       status: statusDict.conflict,
     });
+  });
+
+  it('should return an when error when user tries to edit a task that doesnt belog to him', async () => {
+    const newTask = new Task(validTaskInput);
+    const addedTask = await newTask.save();
+    const newUser = new User({
+      displayName: 'New User',
+      email: 'newuser@gmail.com',
+      password: '123456789',
+    });
+    const savedNewUser = await newUser.save();
+
+    const newValues = { description: 'new description' };
+
+    await expect(
+      TaskService.edit(savedNewUser.email, newValues, addedTask._id)
+    ).rejects.toThrowError('You cannot edit this task');
   });
 });

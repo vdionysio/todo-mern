@@ -7,10 +7,6 @@ const { validateError, statusDict } = require('../helpers');
 const create = async (input, email) => {
   const user = await User.findOne({ email });
 
-  if (!user) {
-    throw validateError(statusDict.unauthorized, 'Token must be valid');
-  }
-
   const { error } = TaskSchema.validate({ ...input, userId: user._id });
 
   if (error) throw validateError(statusDict.badRequest, error.message);
