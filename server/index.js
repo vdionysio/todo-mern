@@ -5,7 +5,7 @@ const routes = require('./src/routes');
 const middlewares = require('./src/middlewares');
 const bodyParser = require('body-parser');
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const app = express();
 
 app.use(bodyParser.json());
@@ -23,9 +23,8 @@ app.on('ready', () => {
   });
 });
 
-// start connection with mongoDB
 mongoose
-  .connect(`mongodb://${process.env.DB_LINK || 'localhost'}:27017/todo-db`)
+  .connect(`mongodb://${process.env.DB_HOST || 'localhost'}:27017/tododb`)
   .then(() => {
     console.log('Connected to database');
     app.emit('ready');

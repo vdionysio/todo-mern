@@ -5,7 +5,7 @@ const { validateError, statusDict } = require('../helpers');
 
 module.exports = rescue(async (req, _res, next) => {
   const token = req.headers.authorization;
-  const JWT_SECRET = process.env.JWT_SECRET || 'secretkey';
+  const JWT_SECRET = process.env.JWT_SECRET || 'S1E1C1R1E1T1K1E1Y';
 
   if (!token) {
     throw validateError(statusDict.unauthorized, 'Missing auth token');

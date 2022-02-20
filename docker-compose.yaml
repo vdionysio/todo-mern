@@ -19,7 +19,8 @@ services:
       - mongo
     restart: on-failure
     environment:
-      - DB_LINK=mongo
+      DB_HOST: ${DATABASE_HOST}
+      JWT_SECRET: ${SECRET_KEY}
   mongo:
     image: mongo:4.4-bionic
     ports:

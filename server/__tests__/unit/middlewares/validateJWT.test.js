@@ -39,7 +39,7 @@ describe('validateJWT middleware', () => {
 
     expect(next).toHaveBeenCalledWith();
     expect(req.user).toMatchObject(
-      jwt.verify(token, process.env.JWT_SECRET || 'secretkey')
+      jwt.verify(token, process.env.JWT_SECRET || 'S1E1C1R1E1T1K1E1Y')
     );
   });
 

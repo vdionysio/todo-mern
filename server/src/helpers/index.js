@@ -12,9 +12,13 @@ const generateToken = (email) => {
     email,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretkey', {
-    expiresIn: '1h',
-  });
+  const token = jwt.sign(
+    payload,
+    process.env.JWT_SECRET || 'S1E1C1R1E1T1K1E1Y',
+    {
+      expiresIn: '1h',
+    }
+  );
 
   return token;
 };
