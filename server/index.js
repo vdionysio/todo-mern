@@ -24,7 +24,10 @@ app.on('ready', () => {
 });
 
 mongoose
-  .connect(`mongodb://${process.env.DB_HOST || 'localhost'}:27017/tododb`)
+  .connect(
+    process.env.DB_URI ||
+      `mongodb://${process.env.DB_HOST || 'localhost'}:27017/tododb`
+  )
   .then(() => {
     console.log('Connected to database');
     app.emit('ready');
