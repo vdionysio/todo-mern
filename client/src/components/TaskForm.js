@@ -21,6 +21,7 @@ function TaskForm({
           placeholder="Enter a task name"
           value={name}
           onChange={({ target: { value } }) => setName(value)}
+          maxLength="25"
         />
       </Form.Group>
 
@@ -31,6 +32,7 @@ function TaskForm({
           placeholder="Enter a description"
           value={description}
           onChange={({ target: { value } }) => setDescription(value)}
+          maxLength="90"
         />
       </Form.Group>
 

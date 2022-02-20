@@ -108,6 +108,7 @@ export async function removeTask(token, taskId) {
       credentials: 'same-origin'
     })
     .then((response) => response.data)
-    .catch((err) => err);
+    .catch(({ response }) => response.data);
+
   return data;
 }

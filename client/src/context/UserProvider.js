@@ -10,7 +10,7 @@ function UserProvider({ children }) {
   const [tasks, setTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
   const [shouldUpdateList, setShouldUpdateList] = useState(true);
-
+  const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   useEffect(() => {
     const fillUserInfo = async () => {
       const info = await getUserByToken(token);
@@ -26,16 +26,6 @@ function UserProvider({ children }) {
     }
   }, [token]);
 
-  useEffect(() => {
-    const fillTasks = async () => {
-      const data = await getUserTasks(token);
-      setTasks(data.tasks);
-    };
-    if (token) {
-      fillTasks();
-    }
-  }, [token, shouldUpdateList]);
-
   const contextValue = {
     token,
     setToken,
@@ -45,7 +35,9 @@ function UserProvider({ children }) {
     shouldUpdateList,
     setShouldUpdateList,
     filteredTasks,
-    setFilteredTasks
+    setFilteredTasks,
+    isLoadingTasks,
+    setIsLoadingTasks
   };
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
