@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+// eslint-disable-next-line no-undef
+const baseUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000';
 export async function register(registerInputs) {
   const data = await axios
-    .post('http://localhost:5000/user', registerInputs, {
+    .post(`${baseUrl}/user`, registerInputs, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json'
@@ -18,7 +20,7 @@ export async function register(registerInputs) {
 
 export async function loginAuthentication(loginInputs) {
   const data = await axios
-    .post('http://localhost:5000/login', loginInputs, {
+    .post(`${baseUrl}/login`, loginInputs, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json'
@@ -34,7 +36,7 @@ export async function loginAuthentication(loginInputs) {
 
 export async function getUserByToken(token) {
   const data = await axios
-    .get('http://localhost:5000/user', {
+    .get(`${baseUrl}/user`, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json',
@@ -50,7 +52,7 @@ export async function getUserByToken(token) {
 
 export async function getUserTasks(token) {
   const data = await axios
-    .get('http://localhost:5000/task', {
+    .get(`${baseUrl}/task`, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json',
@@ -66,7 +68,7 @@ export async function getUserTasks(token) {
 
 export async function addTask(TaskInputs, token) {
   const data = await axios
-    .post('http://localhost:5000/task', TaskInputs, {
+    .post(`${baseUrl}/task`, TaskInputs, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json',
@@ -82,7 +84,7 @@ export async function addTask(TaskInputs, token) {
 
 export async function editTask(TaskInputs, token, taskId) {
   const data = await axios
-    .put(`http://localhost:5000/task/${taskId}`, TaskInputs, {
+    .put(`${baseUrl}/task/${taskId}`, TaskInputs, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json',
@@ -98,7 +100,7 @@ export async function editTask(TaskInputs, token, taskId) {
 
 export async function removeTask(token, taskId) {
   const data = await axios
-    .delete(`http://localhost:5000/task/${taskId}`, {
+    .delete(`${baseUrl}/task/${taskId}`, {
       headers: {
         'Access-Control-Allow-Origin': 'http://localhost:5000',
         'Content-Type': 'application/json',
