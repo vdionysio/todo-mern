@@ -13,7 +13,7 @@ function NewTaskForm() {
     console.log(name, description, status);
     const result = await addTask({ name, description, status }, token);
     if (result.task) {
-      setTasks((prevState) => [...prevState, result.task]);
+      setTasks((prevState) => [result.task, ...prevState]);
     } else {
       alert(result.message);
     }

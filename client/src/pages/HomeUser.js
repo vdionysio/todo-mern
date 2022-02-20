@@ -2,20 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserByToken } from '../api/requests';
 import EditTaskForm from '../components/EditTaskForm';
+import FilterBox from '../components/FilterBox';
 import Header from '../components/Header';
 import NewTaskForm from '../components/NewTaskForm';
 import TaskList from '../components/TaskList';
 import UserContext from '../context/UserContext';
-
-// const sortAux = (ord, valueA, valueB) => {
-//   if (valueA < valueB) {
-//     return ord === 'ASC' ? -1 : 1;
-//   }
-//   if (valueA > valueB) {
-//     return ord === 'ASC' ? 1 : -1;
-//   }
-//   return 0;
-// };
 
 function HomeUser() {
   const navigate = useNavigate();
@@ -36,6 +27,7 @@ function HomeUser() {
     <div>
       {user && <Header {...user} />}
       {editingTask ? <EditTaskForm /> : <NewTaskForm />}
+      <FilterBox />
       <TaskList />
     </div>
   );

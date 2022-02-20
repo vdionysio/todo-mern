@@ -19,7 +19,8 @@ function UserProvider({ children }) {
     };
     const fillTasks = async () => {
       const data = await getUserTasks(token);
-      setTasks(data.tasks);
+      // get with reverse to set an initial asc sort by created at
+      setTasks(data.tasks.reverse());
     };
     if (token) {
       fillUserInfo();
