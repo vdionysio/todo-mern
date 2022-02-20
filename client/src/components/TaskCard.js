@@ -11,18 +11,12 @@ const convertToLocalTimeStamp = (dateString) => {
 };
 
 function TaskCard({ task }) {
-  const { token, setTasks } = useContext(UserContext);
+  const { token, setTasks, setEditingTask } = useContext(UserContext);
   const remove = useCallback(async () => {
     const result = await removeTask(token, task._id);
     console.log(result);
     if (result.task) {
-      setTasks((prev) => {
-        const index = prev.map((item) => item._id).indexOf(task._id);
-        if (index > -1) {
-          return prev.splice(index, 1); // 2nd parameter means remove one item only
-        }
-        return prev;
-      });
+      setTasks((prev) => prev.filter((item) => item._id !== task._id));
     }
     console.log(result);
   }, [task]);
@@ -43,6 +37,9 @@ function TaskCard({ task }) {
         style={{ position: 'absolute', top: '0', right: '5', fontSize: '25', cursor: 'pointer' }}
       />
       <MdEdit
+        onClick={() => {
+          setEditingTask(task);
+        }}
         title="Edit Task"
         style={{ position: 'absolute', top: '0', right: '30', fontSize: '25', cursor: 'pointer' }}
       />

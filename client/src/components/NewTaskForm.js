@@ -17,6 +17,9 @@ function NewTaskForm() {
     } else {
       alert(result.message);
     }
+    setName('');
+    setDescription('');
+    setStatus('');
   }, [status, name, description]);
 
   const propsObject = {
@@ -24,8 +27,10 @@ function NewTaskForm() {
     setName,
     setStatus,
     status,
+    description,
     name,
-    buttonLabel: 'Create task'
+    buttonLabel: 'Create task',
+    variant: 'success'
   };
   return <TaskForm {...propsObject} onButtonClick={createNewTask} />;
 }

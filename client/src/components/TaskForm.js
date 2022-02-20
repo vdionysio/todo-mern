@@ -10,7 +10,8 @@ function TaskForm({
   status,
   name,
   description,
-  buttonLabel
+  buttonLabel,
+  variant = 'primary'
 }) {
   return (
     <Form>
@@ -42,6 +43,7 @@ function TaskForm({
           label="in progress"
           value="in progress"
           name="status"
+          checked={status === 'in progress'}
           onChange={({ target: { value } }) => setStatus(value)}
         />
         <Form.Check
@@ -49,6 +51,7 @@ function TaskForm({
           label="pending"
           value="pending"
           name="status"
+          checked={status === 'pending'}
           onChange={({ target: { value } }) => setStatus(value)}
         />
         <Form.Check
@@ -56,12 +59,13 @@ function TaskForm({
           label="ready"
           value="ready"
           name="status"
+          checked={status === 'ready'}
           onChange={({ target: { value } }) => setStatus(value)}
         />
       </Form.Group>
 
       <Button
-        variant="primary"
+        variant={variant}
         type="button"
         onClick={onButtonClick}
         disabled={status === '' || name === '' || description === ''}>
@@ -79,7 +83,8 @@ TaskForm.propTypes = {
   status: PropTypes.string,
   name: PropTypes.string,
   description: PropTypes.string,
-  buttonLabel: PropTypes.string
+  buttonLabel: PropTypes.string,
+  variant: PropTypes.string
 };
 
 export default TaskForm;

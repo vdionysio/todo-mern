@@ -8,9 +8,10 @@ function UserProvider({ children }) {
   const [token, setToken] = useLocalStorage('token');
   const [user, setUser] = useState();
   const [tasks, setTasks] = useState();
-  const [filteredTasks, setFilteredTasks] = useState();
   const [shouldUpdateList, setShouldUpdateList] = useState(true);
-  const [isLoadingTasks, setIsLoadingTasks] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editingTask, setEditingTask] = useState();
+
   useEffect(() => {
     const fillUserInfo = async () => {
       const info = await getUserByToken(token);
@@ -34,10 +35,10 @@ function UserProvider({ children }) {
     tasks,
     shouldUpdateList,
     setShouldUpdateList,
-    filteredTasks,
-    setFilteredTasks,
-    isLoadingTasks,
-    setIsLoadingTasks
+    editMode,
+    setEditMode,
+    editingTask,
+    setEditingTask
   };
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 }
