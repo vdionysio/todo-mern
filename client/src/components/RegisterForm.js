@@ -1,24 +1,23 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
-import { register } from '../api/requests';
-// import { useNavigate } from 'react-router-dom';
+import { getUserByToken, register } from '../api/requests';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import { validateEmail } from '../helpers';
 
 function RegisterForm() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const [error, setError] = useState();
-  const { setToken } = useContext(UserContext);
+  const { setToken, token } = useContext(UserContext);
 
   const registerUser = useCallback(
     async (registerInputs) => {
       const fields = [email, displayName, password, checkPassword];
       const isSomeNull = fields.some((field) => field === '');
-      console.log(isSomeNull);
       if (isSomeNull) {
         setError('All fields must be filled');
         return false;
@@ -36,9 +35,18 @@ function RegisterForm() {
     [email, password, checkPassword, displayName]
   );
 
+  useEffect(() => {
+    const checkToken = async () => {
+      const result = await getUserByToken(token);
+      if (!result.message) navigate('/user');
+    };
+    checkToken();
+  }, [token]);
+
   return (
     <Form>
       <Form.Group className="mb-3">
+        <h5>Register now</h5>
         <Form.Label>Display name</Form.Label>
         <Form.Control
           type="email"
@@ -76,7 +84,10 @@ function RegisterForm() {
           onBlur={({ target }) => setCheckPassword(target.value)}
         />
       </Form.Group>
-      <Alert variant="danger" style={!error ? { visibility: 'hidden' } : { visibility: 'visible' }}>
+      <Alert
+        className="alert"
+        variant="danger"
+        style={!error ? { visibility: 'hidden' } : { visibility: 'visible' }}>
         {error || 'Keep space'}
       </Alert>
       <Button

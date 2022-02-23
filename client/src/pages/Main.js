@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserByToken } from '../api/requests';
 import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+// import RegisterForm from '../components/RegisterForm';
 import UserContext from '../context/UserContext';
 
 function Main() {
@@ -20,7 +20,7 @@ function Main() {
   return (
     <div className="main-container">
       <LoginForm />
-      <RegisterForm />
+      {/* <RegisterForm /> */}
     </div>
   );
 }

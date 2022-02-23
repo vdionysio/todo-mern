@@ -17,15 +17,11 @@ function FilterBox() {
   const [sortSettings, setSortSettings] = useState({ column: 'createdAt', ord: 'DESC' });
   const sortTasks = useCallback(() => {
     const { column, ord } = sortSettings;
-    console.log(column, ord);
     const filtered = [...tasks].sort((a, b) => {
       var valueA = a[column].toUpperCase();
-      console.log(valueA);
       var valueB = b[column].toUpperCase();
-      console.log(valueB);
       return sortAux(valueA, valueB);
     });
-    console.log(filtered);
     if (ord === 'DESC') setTasks(filtered.reverse());
     setTasks(filtered);
   }, [tasks, sortSettings]);

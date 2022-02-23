@@ -3,8 +3,10 @@ import UserContext from '../context/UserContext';
 import { validateEmail, validateLength } from '../helpers';
 import { Alert, Button, Form } from 'react-bootstrap';
 import { loginAuthentication } from '../api/requests';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { setToken } = useContext(UserContext);
@@ -22,6 +24,7 @@ function LoginForm() {
   return (
     <Form>
       <Form.Group className="mb-3">
+        <h5>Enter with your account</h5>
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type="email"
@@ -43,6 +46,9 @@ function LoginForm() {
       </Alert>
       <Button variant="primary" type="button" onClick={() => login({ email, password })}>
         Login
+      </Button>
+      <Button variant="outline-primary" type="button" onClick={() => navigate('/register')}>
+        Register
       </Button>
     </Form>
   );

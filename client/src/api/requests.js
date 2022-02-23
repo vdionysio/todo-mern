@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // eslint-disable-next-line no-undef
 const baseUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000';
-console.log(baseUrl);
+
 export async function register(registerInputs) {
   const data = await axios
     .post(`${baseUrl}/user`, registerInputs, {

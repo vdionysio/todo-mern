@@ -14,11 +14,9 @@ function TaskCard({ task }) {
   const { token, setTasks, setEditingTask } = useContext(UserContext);
   const remove = useCallback(async () => {
     const result = await removeTask(token, task._id);
-    console.log(result);
     if (result.task) {
       setTasks((prev) => prev.filter((item) => item._id !== task._id));
     }
-    console.log(result);
   }, [task]);
 
   return (
@@ -30,7 +28,6 @@ function TaskCard({ task }) {
         </Card.Subtitle>
         <Card.Text>{task.description}</Card.Text>
       </Card.Body>
-      <p>{task._id}</p>
       <MdDeleteForever
         onClick={remove}
         title="Remove Task"

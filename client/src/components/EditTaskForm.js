@@ -9,9 +9,7 @@ function EditTaskForm() {
   const [description, setDescription] = useState(editingTask.description);
   const [status, setStatus] = useState(editingTask.status);
   const edit = useCallback(async () => {
-    console.log(editingTask);
     const result = await editTask({ name, description, status }, token, editingTask._id);
-    console.log(result);
     if (result.task) {
       setTasks((prev) =>
         prev.map((item) => {

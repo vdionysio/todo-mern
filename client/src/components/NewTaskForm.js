@@ -10,7 +10,6 @@ function NewTaskForm() {
   const [status, setStatus] = useState('');
 
   const createNewTask = useCallback(async () => {
-    console.log(name, description, status);
     const result = await addTask({ name, description, status }, token);
     if (result.task) {
       setTasks((prevState) => [result.task, ...prevState]);
