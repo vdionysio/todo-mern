@@ -18,4 +18,4 @@ O client-side foi desenvolvido utilizando a biblioteca React.JS. Os componentes 
 - `cd todo-mern`
 3. Certifique-se de que a porta 3000 dá sua máquina local está disponível e então execute o docker-compose
 - `docker-compose up`
-4. Aguarda até o terminal indicar que sua aplicação está pronta e então entre na sua porta local 3000, normalmente pelo link http://localhost:3000/ .
+4. Aguarda até o terminal indicar que sua aplicação está pronta e então entre na sua porta local 3000, normalmente pelo link http://localhost:3000/.
