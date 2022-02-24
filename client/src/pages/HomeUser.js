@@ -26,7 +26,7 @@ function HomeUser() {
   return (
     <div>
       {user && <Header {...user} />}
-      {editingTask ? <EditTaskForm /> : <NewTaskForm />}
+      <div className="task-form-container">{editingTask ? <EditTaskForm /> : <NewTaskForm />}</div>
       <FilterBox />
       <TaskList />
     </div>

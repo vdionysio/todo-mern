@@ -90,12 +90,14 @@ function RegisterForm() {
         style={!error ? { visibility: 'hidden' } : { visibility: 'visible' }}>
         {error || 'Keep space'}
       </Alert>
-      <Button
-        variant="primary"
-        type="button"
-        onClick={() => registerUser({ displayName, email, password })}>
-        Register
-      </Button>
+      <div className="register-btn-container">
+        <Button
+          variant="primary"
+          type="button"
+          onClick={() => registerUser({ displayName, email, password })}>
+          Register
+        </Button>
+      </div>
     </Form>
   );
 }

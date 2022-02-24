@@ -23,6 +23,7 @@ function LoginForm() {
 
   return (
     <Form>
+      <h2>To Do List</h2>
       <Form.Group className="mb-3">
         <h5>Enter with your account</h5>
         <Form.Label>Email address</Form.Label>
@@ -44,12 +45,14 @@ function LoginForm() {
       <Alert variant="danger" style={!error ? { visibility: 'hidden' } : { visibility: 'visible' }}>
         {error || 'Keep space'}
       </Alert>
-      <Button variant="primary" type="button" onClick={() => login({ email, password })}>
-        Login
-      </Button>
-      <Button variant="outline-primary" type="button" onClick={() => navigate('/register')}>
-        Register
-      </Button>
+      <div className="login-btn-container">
+        <Button variant="primary" type="button" onClick={() => login({ email, password })}>
+          Login
+        </Button>
+        <Button variant="outline-primary" type="button" onClick={() => navigate('/register')}>
+          Register
+        </Button>
+      </div>
     </Form>
   );
 }

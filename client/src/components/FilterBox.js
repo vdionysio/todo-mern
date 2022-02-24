@@ -27,7 +27,7 @@ function FilterBox() {
   }, [tasks, sortSettings]);
 
   return (
-    <Form>
+    <Form className="filter-form">
       <Form.Group>
         <Form.Label>Order by</Form.Label>
         <Form.Select onChange={({ target }) => setSortSettings(JSON.parse(target.value))}>

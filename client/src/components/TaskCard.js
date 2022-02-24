@@ -20,7 +20,7 @@ function TaskCard({ task }) {
   }, [task]);
 
   return (
-    <Card className="border" style={{ position: 'relative', margin: '10px' }}>
+    <Card className="card-container" style={{ position: 'relative', margin: '10px' }}>
       <Card.Body>
         <Card.Title>{task.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">

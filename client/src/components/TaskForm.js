@@ -14,7 +14,7 @@ function TaskForm({
   variant = 'primary'
 }) {
   return (
-    <Form>
+    <Form className="task-form">
       <Form.Group className="mb-3">
         <Form.Label>Task name</Form.Label>
         <Form.Control

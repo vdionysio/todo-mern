@@ -1,0 +1,71 @@
+.login-container, .register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-container h2, .register-container h2, .login-container h5, .register-container h5 {
+  text-align: center;
+}
+
+.login-container form, .register-container form {
+  border: 0.01em solid rgba(0, 0, 0, 0.171);
+  border-radius: 4px;
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+
+.login-btn-container, .register-btn-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.task-form-container {
+  display: flex;
+  padding: 10px 10px 20px 10px;
+  border-bottom: 0.01em solid rgba(0, 0, 0, 0.171);
+  margin-bottom: 5px;
+}
+
+.task-form-container form {
+  width: 100%;
+}
+
+.filter-form {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.filter-form button {
+  height: 40px;
+}
+
+@media (min-width: 426px) {
+  .task-form-container {
+    display: flex;
+  }
+  
+  .task-form-container form {
+    height: 40vh;
+    width: 45%;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .task-form button {
+    width: 120px
+  }
+
+  .filter-form {
+    justify-content: flex-start;
+  }
+
+  .filter-form button {
+    margin-left: 50px;
+  }
+}
