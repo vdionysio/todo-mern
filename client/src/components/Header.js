@@ -14,7 +14,7 @@ function Header({ displayName }) {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand>Todo List</Navbar.Brand>
+        <Navbar.Brand>To Do List</Navbar.Brand>
         <Navbar.Text>{displayName}</Navbar.Text>
         <Button variant="primary" onClick={logOut} size="sm">
           Logout
