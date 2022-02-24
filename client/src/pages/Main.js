@@ -9,6 +9,7 @@ function Main() {
   const { token } = useContext(UserContext);
 
   useEffect(() => {
+    console.log('TESTEE');
     const checkToken = async () => {
       const result = await getUserByToken(token);
       if (!result.message) navigate('/user');
