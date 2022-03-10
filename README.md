@@ -6,7 +6,7 @@ A aplicação consiste em um todo-list desenvolvido utilizando a stack **MERN** 
 
 ## Back-end
 
-O server-side (Node.JS + Express) foi desenvolvido com base na arquitetura de camadas MSC (Model - Service - Cotroller). Para realizar as tarefas dentro do banco de dados MongoDB foi utilizado o ORM (Object–relational mapping) Mongoose.
+O server-side (Node.JS + Express) foi desenvolvido com base na arquitetura de camadas MSC (Model - Service - Cotroller). Para realizar as tarefas dentro do banco de dados MongoDB foi utilizado o ODM (Object Document Mapping) Mongoose.
 Foram construídos testes unitários utilizando o Jest e o Mongodb Memory Server. A cobertura de testes atual está em 96.15%.
 
 ## Front-end
