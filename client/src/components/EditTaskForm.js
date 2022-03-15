@@ -34,7 +34,7 @@ function EditTaskForm() {
     name,
     description,
     status,
-    buttonLabel: 'Save editions'
+    buttonLabel: 'Edit'
   };
   return (
     <LoadingOverlay

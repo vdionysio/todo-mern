@@ -50,7 +50,7 @@
   }
   
   .task-form-container form {
-    height: 40vh;
+    /* height: 40vh; */
     width: 100%;
     justify-content: space-around;
     display: flex;
